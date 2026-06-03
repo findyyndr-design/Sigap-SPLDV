@@ -1269,9 +1269,22 @@
       .methods-grid { grid-template-columns: 1fr; }
       .moti-banner { flex-direction: column; padding: 24px 20px; }
       .moti-badge-wrap { flex-direction: row; flex-wrap: wrap; }
-      .achievement-badge { min-width: 0; flex: 1; }
+      .achievement-badge { min-width: 0; flex: 1; padding: 12px 14px; }
+      .ab-name { font-size: 11px; }
+      .ab-pts { font-size: 9px; }
       .floating-mascot { bottom: 16px; right: 16px; }
       .fm-char { width: 64px; }
+    }
+
+    @media (max-width: 480px) {
+      .moti-banner { padding: 18px 16px; }
+      .moti-title { font-size: 20px; }
+      .moti-desc { font-size: 12px; max-width: 100%; }
+      .moti-badge-wrap { gap: 8px; }
+      .achievement-badge { min-width: 0; flex: 0 1 calc(50% - 4px); padding: 10px 10px; gap: 8px; }
+      .ab-icon { font-size: 20px; flex-shrink: 0; }
+      .ab-name { font-size: 10px; line-height: 1.2; word-wrap: break-word; }
+      .ab-pts { font-size: 8px; margin-top: 1px; }
     }
   </style>
 </head>
