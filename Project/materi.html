@@ -849,11 +849,10 @@
       border-radius: 24px;
       box-shadow: var(--shadow);
       padding: 32px 20px 28px;
-      overflow: hidden;
     }
 
     /* Tree layout */
-    .tree { display:flex; flex-direction:column; align-items:center; gap:0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tree { display:flex; flex-direction:column; align-items:center; gap:0; margin: 0 auto; width: max-content; }
 
     /* NODE papan kayu */
     .pnode {
@@ -1136,7 +1135,6 @@
     }
 
     @media (max-width: 600px) {
-      .tree { transform: scale(0.88); width: 115%; }
       .tree-row { gap: 6px !important; }
       .pnode { font-size:10px !important; padding:6px 10px !important; min-width:65px !important; white-space: normal !important; }
       .pnode-root { font-size:11px !important; padding:8px 14px !important; min-width:110px !important; }
@@ -1153,7 +1151,6 @@
     }
 
     @media (max-width: 480px) {
-      .tree { transform: scale(0.70); width: 142%; }
       .tree-row { gap: 0 !important; }
       .pnode { font-size:7px !important; padding:3px 6px !important; min-width:50px !important; line-height: 1 !important; border-radius: 6px; }
       .pnode-root { font-size:8px !important; padding:5px 10px !important; min-width:75px !important; font-size: 8px !important; }
@@ -1412,9 +1409,10 @@
     <p class="konsep-hint">Klik setiap papan untuk membuka materi lengkap</p>
 
     <div class="konsep-wrap">
-      <div class="tree">
+      <div class="tree-scroll-container" style="width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 12px;">
+        <div class="tree">
 
-        <!-- ROOT -->
+          <!-- ROOT -->
         <div class="tree-col">
           <div class="pnode pnode-root" onclick="openModal('mroot')">
             Sistem Persamaan Linear<br>Dua Variabel (SPLDV)
@@ -1475,7 +1473,8 @@
           </div>
         </div>
 
-      </div><!-- end tree -->
+        </div><!-- end tree -->
+      </div><!-- end tree-scroll-container -->
     </div><!-- end konsep-wrap -->
   </div>
 
@@ -2300,6 +2299,9 @@
   }
 </script>
 <script>
+  // Pindahkan modal ke body untuk menghindari bug z-index/transform
+  document.querySelectorAll('.modal-full, .modal-overlay').forEach(el => document.body.appendChild(el));
+
   // ── MODAL PETA KONSEP ──
   function openModal(id) {
     document.getElementById('modalOverlay').classList.add('active');
