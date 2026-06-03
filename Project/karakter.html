@@ -1209,8 +1209,25 @@
       .tujuan-header-right { gap: 8px; }
       .tujuan-body { padding: 16px 18px; }
       .tujuan-grid { grid-template-columns: 1fr; }
+      .tj-item { padding: 14px 14px; gap: 10px; }
+      .tj-text { font-size: 12px; }
       .tujuan-footer { flex-direction: column; align-items: flex-start; }
       .tujuan-body-wrap.open { max-height: 1200px; }
+    }
+
+    @media (max-width: 480px) {
+      .tujuan-header { padding: 16px 14px; flex-direction: column; align-items: flex-start; }
+      .tujuan-title { font-size: 18px; }
+      .tujuan-header-right { width: 100%; justify-content: space-between; gap: 10px; }
+      .tujuan-kompetensi { padding: 8px 12px; }
+      .tk-num { font-size: 20px; }
+      .tk-lbl { font-size: 9px; }
+      .tujuan-body { padding: 14px 14px; }
+      .tujuan-grid { gap: 10px; }
+      .tj-item { padding: 12px 12px; gap: 8px; }
+      .tj-num { width: 24px; height: 24px; font-size: 10px; }
+      .tj-text { font-size: 11px; line-height: 1.5; }
+      .btn-tujuan { padding: 10px 14px; font-size: 12px; }
     }
 
     /* ── ANIMATIONS ── */
@@ -1336,25 +1353,6 @@
         <a href="https://drive.google.com/file/d/1HCrZQKjQtWdjl4XVd9oVJnQ_AJSAPK5X/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">📖 Buku Panduan Pengguna</a>
       </div>
 
-      <!-- Mini progress steps -->
-      <div class="hero-progress">
-        <div class="prog-step active">
-          <span class="prog-dot"></span>Pretest
-        </div>
-        <span class="prog-arrow">›</span>
-        <div class="prog-step">
-          <span class="prog-dot"></span>Materi
-        </div>
-        <span class="prog-arrow">›</span>
-        <div class="prog-step">
-          <span class="prog-dot"></span>Quiz
-        </div>
-        <span class="prog-arrow">›</span>
-        <div class="prog-step">
-          <span class="prog-dot"></span>Latihan & Posttest
-        </div>
-      </div>
-    </div>
 
     <!-- Right Mascot -->
     <div class="hero-right">
