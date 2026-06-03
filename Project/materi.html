@@ -835,7 +835,7 @@
     }
 
     /* Tree layout */
-    .tree { display:flex; flex-direction:column; align-items:center; gap:0; }
+    .tree { display:flex; flex-direction:column; align-items:center; gap:0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
     /* NODE papan kayu */
     .pnode {
@@ -856,6 +856,7 @@
       white-space: nowrap;
       line-height: 1.4;
       min-width: 130px;
+      flex-shrink: 0;
     }
     .pnode::before {
       content: '';
@@ -1113,11 +1114,19 @@
       .mf-method-grid { grid-template-columns:1fr; }
     }
 
+    @media (max-width: 600px) {
+      .tree { transform: scale(0.9); transform-origin: top center; width: 111%; }
+      .tree-row { gap: 8px !important; }
+      .pnode { font-size:10px !important; padding:6px 10px !important; min-width:65px !important; white-space: normal !important; }
+      .pnode-root { font-size:11px !important; padding:8px 14px !important; min-width:110px !important; }
+    }
+
     @media (max-width: 480px) {
-      .tree-row { gap: 6px; }
-      .pnode { font-size:10px; padding:6px 10px; min-width:70px; white-space: normal; line-height: 1.2; }
-      .pnode-root { font-size:11px; padding:10px 16px; min-width:120px; }
-      .connector-v { min-height: 16px; }
+      .tree { transform: scale(0.85); width: 118%; }
+      .tree-row { gap: 4px !important; }
+      .pnode { font-size:9px !important; padding:4px 8px !important; min-width:60px !important; line-height: 1.1 !important; }
+      .pnode-root { font-size:10px !important; padding:6px 12px !important; min-width:100px !important; }
+      .connector-v { min-height: 12px; }
       .mf-header { padding:16px 16px 12px; }
       .mf-title { font-size:18px; }
       .mf-body { padding:16px 16px 20px; }
