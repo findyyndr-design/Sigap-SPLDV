@@ -1025,6 +1025,7 @@
       padding: 28px 32px 24px;
       position: relative;
       flex-shrink: 0;
+      background: linear-gradient(135deg, #0F766E 0%, #0D9488 100%);
     }
     .mf-tag {
       font-size: 10px; font-weight:800; letter-spacing:2.5px;
@@ -1112,24 +1113,52 @@
       .mf-title { font-size:20px; }
       .mf-body { padding:20px 20px 24px; }
       .mf-method-grid { grid-template-columns:1fr; }
+      .modal-full { width: min(600px, 95vw); max-height: 85vh; border-radius: 24px; }
+      .mf-close { width: 32px; height: 32px; font-size: 14px; top: 16px; right: 16px; }
     }
 
     @media (max-width: 600px) {
-      .tree { transform: scale(0.9); transform-origin: top center; width: 111%; }
-      .tree-row { gap: 8px !important; }
+      .tree { transform: scale(0.88); width: 115%; }
+      .tree-row { gap: 6px !important; }
       .pnode { font-size:10px !important; padding:6px 10px !important; min-width:65px !important; white-space: normal !important; }
       .pnode-root { font-size:11px !important; padding:8px 14px !important; min-width:110px !important; }
+      .modal-full { width: 94vw; max-height: 80vh; border-radius: 20px; }
+      .mf-header { padding: 18px 16px 14px; }
+      .mf-tag { font-size: 9px; margin-bottom: 4px; }
+      .mf-title { font-size: 18px; line-height: 1.3; }
+      .mf-close { width: 28px; height: 28px; font-size: 12px; top: 12px; right: 12px; }
+      .mf-body { padding: 16px 16px 20px; }
+      .mf-body p { font-size: 13px; line-height: 1.7; }
+      .mf-formula { font-size: 14px; padding: 12px 14px; margin: 12px 0; }
+      .mf-soal-text { font-size: 12.5px; }
+      .mf-method-grid { gap: 10px; }
     }
 
     @media (max-width: 480px) {
-      .tree { transform: scale(0.85); width: 118%; }
-      .tree-row { gap: 4px !important; }
-      .pnode { font-size:9px !important; padding:4px 8px !important; min-width:60px !important; line-height: 1.1 !important; }
-      .pnode-root { font-size:10px !important; padding:6px 12px !important; min-width:100px !important; }
-      .connector-v { min-height: 12px; }
-      .mf-header { padding:16px 16px 12px; }
-      .mf-title { font-size:18px; }
-      .mf-body { padding:16px 16px 20px; }
+      .tree { transform: scale(0.80); width: 125%; }
+      .tree-row { gap: 2px !important; }
+      .pnode { font-size:8px !important; padding:4px 8px !important; min-width:55px !important; line-height: 1 !important; }
+      .pnode-root { font-size:9px !important; padding:6px 12px !important; min-width:90px !important; }
+      .pnode::before { inset: 2px; }
+      .connector-v { min-height: 10px; width: 2px; }
+      .modal-full { width: 90vw; max-height: 75vh; border-radius: 16px; top: 55% !important; }
+      .mf-header { padding: 14px 12px 10px; }
+      .mf-tag { font-size: 8px; letter-spacing: 1px; }
+      .mf-title { font-size: 16px; }
+      .mf-close { width: 24px; height: 24px; font-size: 10px; top: 10px; right: 10px; }
+      .mf-body { padding: 12px 12px 16px; overflow-y: auto; }
+      .mf-body p { font-size: 12px; line-height: 1.6; margin-bottom: 8px; }
+      .mf-formula { font-size: 12px; padding: 10px 12px; margin: 10px 0; }
+      .mf-chips { gap: 6px; margin: 10px 0; }
+      .mfc-green, .mfc-red { font-size: 11px; padding: 5px 10px; }
+      .mf-divider { margin: 12px 0; }
+      .mf-soal-block { padding: 14px 16px; margin-top: 2px; border-radius: 12px; }
+      .mf-soal-label { font-size: 9px; margin-bottom: 8px; }
+      .mf-soal-text { font-size: 11.5px; }
+      .mf-method-grid { grid-template-columns: 1fr; gap: 8px; margin-top: 10px; }
+      .mf-method-card { padding: 12px 12px; border-radius: 10px; }
+      .mf-method-card strong { font-size: 11px; margin-bottom: 3px; }
+      .mf-method-card span { font-size: 10px; }
     }
 
     /* ── FLOATING MASCOT ── */
