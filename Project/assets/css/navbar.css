@@ -1,0 +1,228 @@
+/* ── NAVBAR STYLES ── */
+:root {
+  --teal: #0D9488;
+  --teal-d: #0F766E;
+  --teal-xl: #F0FDF9;
+  --indigo: #6366F1;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── NAVBAR (DESKTOP) ── */
+.navbar {
+  background: white;
+  border-bottom: 1px solid #E2E8F0;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 60px;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--teal-d);
+  text-decoration: none;
+  margin-right: auto;
+  transition: all 0.2s;
+}
+
+.nav-brand:hover {
+  color: var(--teal);
+}
+
+.nav-logo {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--teal), var(--indigo));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 900;
+  font-size: 15px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-icon {
+  display: none !important; /* Hide icons entirely on desktop, show only text */
+}
+
+.nav-center-outer {
+  display: none; /* Hide outer circle on desktop */
+}
+
+.nav-center-inner {
+    display: none; /* Hide inner circle on desktop */
+}
+
+.nav-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748B;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: var(--teal-xl);
+  color: var(--teal-d);
+}
+
+/* ── RESPONSIVE MOBILE FOOTBAR ── */
+@media (max-width: 768px) {
+  .navbar {
+    border-bottom: none;
+    box-shadow: none;
+    background: transparent;
+    position: relative; 
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .nav-inner {
+    justify-content: center;
+    padding-top: 10px;
+  }
+
+  /* Light Theme Footbar matching body */
+  .nav-links {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: white; 
+    border: 1px solid #E2E8F0;
+    border-radius: 24px;
+    padding: 0 12px;
+    height: 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.08); /* Increased shadow for shape emphasis */
+    z-index: 1000;
+  }
+
+  /* Move mascots above the footbar natively on mobile */
+  .floating-mascot, .float-chibi {
+    bottom: 110px !important;
+    right: 20px !important;
+  }
+
+  .nav-link {
+    background: none !important;
+    color: #64748B;
+    padding: 0;
+    flex: 1; /* Allow it to distribute evenly without overflowing */
+    max-width: 60px; /* Still keep it from expanding too much */
+    height: 60px;
+    border-radius: 12px;
+    position: relative;
+    transition: all 0.3s;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  .nav-icon {
+    display: flex !important; /* Force show icons on mobile */
+    width: 24px;
+    height: 24px;
+    transition: all 0.3s;
+    margin: 0;
+  }
+  
+  .nav-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .nav-text {
+    display: none !important; /* Completely hide text on mobile */
+  }
+
+  /* Active state */
+  .nav-link.active, .nav-link:hover {
+    color: var(--teal);
+  }
+  
+  .nav-link.active .nav-icon {
+    transform: translateY(-2px);
+  }
+
+  /* ── CENTER FLOATING BUTTON ── */
+  .nav-center .nav-icon {
+    display: none !important;
+  }
+
+  .nav-center-outer {
+    display: flex;
+    position: absolute;
+    top: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    background: #F0F4F8; /* matches body background to create cutout */
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-center-inner {
+    display: flex; /* Show inner circle on mobile */
+    width: 48px;
+    height: 48px;
+    background: var(--teal);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 6px 16px rgba(13, 148, 136, 0.4);
+    transition: transform 0.2s;
+  }
+  
+  .nav-center-inner svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .nav-link.active .nav-center-inner,
+  .nav-center:hover .nav-center-inner {
+    background: var(--teal-d);
+    transform: scale(1.05);
+  }
+}

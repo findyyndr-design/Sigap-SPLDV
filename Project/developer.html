@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer — SIGAP SPLDV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Fredoka+One&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/navbar.css">
+  <link rel="stylesheet" href="assets/css/page-transition.css">
+  <style>
+    :root {
+      --purple: #A855F7;
+      --purple-l: #C084FC;
+      --purple-xl: #F5F0FF;
+      --purple-d: #7C3AED;
+      --orange: #FB923C;
+      --orange-l: #FDBA74;
+      --orange-xl: #FFF7ED;
+      --yellow: #FBBF24;
+      --yellow-l: #FDE68A;
+      --white: #FFFFFF;
+      --soft: #FDF8FF;
+      --ink: #1E1028;
+      --ink-2: #3D2055;
+      --muted: #7B6F8C;
+      --shadow: 0 4px 24px rgba(168,85,247,.12);
+      --shadow-lg: 0 16px 48px rgba(168,85,247,.18);
+      --shadow-orange: 0 8px 32px rgba(251,146,60,.2);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--soft);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAVBAR SPACER ─── */
+    #navbar-container { position: relative; z-index: 100; }
+
+    /* ─── FLOATING MATH BACKGROUND ─── */
+    .math-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .math-float {
+      position: absolute;
+      font-weight: 900;
+      opacity: 0.06;
+      animation: floatRandom linear infinite;
+      user-select: none;
+      color: var(--purple-d);
+    }
+    .math-float:nth-child(odd) { color: var(--orange); opacity: 0.05; }
+    @keyframes floatRandom {
+      0% { transform: translateY(110vh) rotate(0deg); }
+      100% { transform: translateY(-20vh) rotate(360deg); }
+    }
+    .star-float {
+      position: absolute;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--yellow);
+      opacity: 0.15;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { transform: scale(1); opacity: 0.15; }
+      50% { transform: scale(1.8); opacity: 0.35; }
+    }
+    .cloud-deco {
+      position: absolute;
+      background: white;
+      border-radius: 50px;
+      opacity: 0.5;
+    }
+    .cloud-deco::before, .cloud-deco::after {
+      content: '';
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #2D1060 0%, #4A1080 35%, #7C3AED 70%, #A855F7 100%);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    /* Hero decorative blobs */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -80px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(251,146,60,.25) 0%, transparent 70%);
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -60px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(251,191,36,.15) 0%, transparent 70%);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 100px 48px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    /* Hero Left */
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 30px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--yellow-l);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      backdrop-filter: blur(8px);
+    }
+    .hero-badge::before { content: '⭐'; font-size: 14px; }
+
+    .hero-name {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(36px, 5vw, 58px);
+      line-height: 1.1;
+      color: white;
+      margin-bottom: 8px;
+    }
+    .hero-name .name-highlight {
+      color: var(--yellow);
+      text-shadow: 0 0 30px rgba(251,191,36,.4);
+    }
+
+    .hero-nim {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: rgba(255,255,255,.5);
+      letter-spacing: 3px;
+      margin-bottom: 28px;
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      color: rgba(255,255,255,.75);
+      line-height: 1.9;
+      max-width: 420px;
+      margin-bottom: 36px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 40px;
+    }
+    .pill {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+    .pill-purple { background: rgba(168,85,247,.3); color: #E9D5FF; border: 1px solid rgba(168,85,247,.4); }
+    .pill-orange { background: rgba(251,146,60,.25); color: #FED7AA; border: 1px solid rgba(251,146,60,.35); }
+    .pill-white { background: rgba(255,255,255,.12); color: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.2); }
+
+    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--orange);
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px; font-weight: 800;
+      padding: 13px 28px; border-radius: 14px;
+      text-decoration: none; border: none; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(251,146,60,.4);
+      transition: all .25s cubic-bezier(.34,1.56,.64,1);
+    }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 28px rgba(251,146,60,.5); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent;
+      color: rgba(255,255,255,.8);
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px; font-weight: 700;
+      padding: 13px 28px; border-radius: 14px;
+      text-decoration: none;
+      border: 2px solid rgba(255,255,255,.25);
+      cursor: pointer;
+      transition: all .25s;
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,.6); color: white; background: rgba(255,255,255,.08); }
+
+    /* Hero Right — Cartoon Mascot + Decoration */
+    .hero-right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Achievement Badge on hero */
+    .hero-achievement {
+      position: absolute;
+      top: 20px; left: -10px;
+      background: white;
+      border-radius: 16px;
+      padding: 12px 18px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: floatY 3s ease-in-out infinite;
+      z-index: 3;
+    }
+    .ha-icon { font-size: 24px; }
+    .ha-text { font-size: 11px; font-weight: 800; color: var(--purple-d); line-height: 1.3; }
+    .ha-sub { font-size: 10px; color: var(--muted); font-weight: 600; }
+
+    .hero-achievement-2 {
+      position: absolute;
+      bottom: 30px; right: -10px;
+      background: var(--yellow);
+      border-radius: 16px;
+      padding: 12px 18px;
+      box-shadow: 0 8px 24px rgba(251,191,36,.35);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: floatY 3.5s ease-in-out infinite reverse;
+      z-index: 3;
+    }
+    .ha-text-dark { font-size: 11px; font-weight: 800; color: var(--ink); line-height: 1.3; }
+    .ha-sub-dark { font-size: 10px; color: rgba(30,16,40,.6); font-weight: 600; }
+
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Main mascot SVG */
+    .mascot-main {
+      width: 280px;
+      height: auto;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,.3));
+      animation: floatY 4s ease-in-out infinite;
+    }
+
+    /* Decorative math symbols around mascot */
+    .deco-symbol {
+      position: absolute;
+      font-family: 'Fredoka One', cursive;
+      font-size: 24px;
+      background: rgba(255,255,255,.15);
+      backdrop-filter: blur(4px);
+      border-radius: 12px;
+      width: 50px; height: 50px;
+      display: flex; align-items: center; justify-content: center;
+      color: white;
+      box-shadow: 0 4px 16px rgba(0,0,0,.15);
+      animation: floatY linear infinite;
+    }
+    .ds-1 { top: 10%; left: 5%; animation-duration: 5s; }
+    .ds-2 { top: 20%; right: 8%; animation-duration: 4.2s; animation-delay: .5s; }
+    .ds-3 { bottom: 25%; left: 8%; animation-duration: 5.5s; animation-delay: 1s; }
+    .ds-4 { top: 60%; right: 5%; animation-duration: 4.8s; animation-delay: .3s; }
+
+    /* ─── MAIN CONTENT ─── */
+    .main {
+      position: relative;
+      z-index: 1;
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 80px 40px;
+    }
+
+    /* ─── SECTION HEADING ─── */
+    .sec-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .sec-num-badge {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-d));
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Fredoka One', cursive;
+      font-size: 22px;
+      color: white;
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
+    }
+    .sec-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 4px;
+    }
+    .sec-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 30px;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    /* ─── ABOUT CARDS ─── */
+    .about-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 80px;
+    }
+    .about-card {
+      background: white;
+      border-radius: 20px;
+      padding: 28px 24px;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 20px rgba(168,85,247,.07);
+      transition: all .3s cubic-bezier(.34,1.56,.64,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .about-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--purple), var(--orange));
+      border-radius: 20px 20px 0 0;
+    }
+    .about-card:hover {
+      transform: translateY(-6px) rotate(-0.5deg);
+      border-color: var(--purple-l);
+      box-shadow: var(--shadow-lg);
+    }
+    .ac-icon-wrap {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      background: var(--purple-xl);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      margin-bottom: 16px;
+    }
+    .about-card:nth-child(2) .ac-icon-wrap { background: var(--orange-xl); }
+    .about-card:nth-child(3) .ac-icon-wrap { background: #FFFBEB; }
+    .ac-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 6px;
+    }
+    .about-card:nth-child(2) .ac-label { color: var(--orange); }
+    .about-card:nth-child(3) .ac-label { color: #D97706; }
+    .ac-title { font-size: 15px; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
+    .ac-text { font-size: 13px; color: var(--muted); line-height: 1.75; }
+
+    /* Sticky note decoration */
+    .sticky-note {
+      background: var(--yellow-l);
+      border-radius: 4px 4px 4px 0;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #92400E;
+      display: inline-block;
+      margin-top: 12px;
+      box-shadow: 2px 2px 8px rgba(0,0,0,.08);
+      transform: rotate(-1.5deg);
+    }
+    .about-card:nth-child(2) .sticky-note {
+      background: #FED7AA;
+      color: #9A3412;
+      transform: rotate(1deg);
+    }
+    .about-card:nth-child(3) .sticky-note {
+      background: #E0D7FF;
+      color: #4C1D95;
+      transform: rotate(-0.8deg);
+    }
+
+    /* ─── DIVIDER ─── */
+    .hr {
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--purple-l), var(--orange-l), transparent);
+      margin: 0 0 80px;
+      border-radius: 2px;
+      opacity: 0.4;
+    }
+
+    /* ─── LEVEL CARDS (Fitur) ─── */
+    .level-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .level-progress {
+      background: var(--purple-xl);
+      border-radius: 30px;
+      padding: 8px 20px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--purple-d);
+    }
+
+    .fitur-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 80px;
+    }
+    .level-card {
+      background: white;
+      border-radius: 20px;
+      padding: 28px 20px 24px;
+      border: 2px solid #F3E8FF;
+      box-shadow: 0 4px 16px rgba(168,85,247,.06);
+      cursor: default;
+      transition: all .3s cubic-bezier(.34,1.56,.64,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .level-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--purple-l);
+      box-shadow: var(--shadow-lg);
+    }
+    .level-card:nth-child(2):hover { border-color: var(--orange-l); box-shadow: var(--shadow-orange); }
+    .level-card:nth-child(3):hover { border-color: var(--yellow); box-shadow: 0 16px 48px rgba(251,191,36,.2); }
+    .level-card:nth-child(4):hover { border-color: #86EFAC; box-shadow: 0 16px 48px rgba(34,197,94,.15); }
+    .level-card:nth-child(5):hover { border-color: #93C5FD; box-shadow: 0 16px 48px rgba(59,130,246,.15); }
+    .level-card:nth-child(6):hover { border-color: #F9A8D4; box-shadow: 0 16px 48px rgba(236,72,153,.15); }
+
+    .level-badge {
+      position: absolute;
+      top: 16px; right: 16px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 11px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-d));
+      color: white;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .level-card:nth-child(2) .level-badge { background: linear-gradient(135deg, var(--orange), #EA580C); }
+    .level-card:nth-child(3) .level-badge { background: linear-gradient(135deg, var(--yellow), #D97706); }
+    .level-card:nth-child(4) .level-badge { background: linear-gradient(135deg, #22C55E, #15803D); }
+    .level-card:nth-child(5) .level-badge { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
+    .level-card:nth-child(6) .level-badge { background: linear-gradient(135deg, #EC4899, #BE185D); }
+
+    .lc-icon-wrap {
+      width: 64px; height: 64px;
+      border-radius: 18px;
+      background: var(--purple-xl);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(168,85,247,.15);
+    }
+    .level-card:nth-child(2) .lc-icon-wrap { background: var(--orange-xl); box-shadow: 0 4px 12px rgba(251,146,60,.15); }
+    .level-card:nth-child(3) .lc-icon-wrap { background: #FFFBEB; box-shadow: 0 4px 12px rgba(251,191,36,.15); }
+    .level-card:nth-child(4) .lc-icon-wrap { background: #F0FDF4; box-shadow: 0 4px 12px rgba(34,197,94,.12); }
+    .level-card:nth-child(5) .lc-icon-wrap { background: #EFF6FF; box-shadow: 0 4px 12px rgba(59,130,246,.12); }
+    .level-card:nth-child(6) .lc-icon-wrap { background: #FDF2F8; box-shadow: 0 4px 12px rgba(236,72,153,.12); }
+
+    .lc-level-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 4px;
+    }
+    .level-card:nth-child(2) .lc-level-label { color: var(--orange); }
+    .level-card:nth-child(3) .lc-level-label { color: #D97706; }
+    .level-card:nth-child(4) .lc-level-label { color: #16A34A; }
+    .level-card:nth-child(5) .lc-level-label { color: #2563EB; }
+    .level-card:nth-child(6) .lc-level-label { color: #DB2777; }
+
+    .lc-title { font-size: 15px; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
+    .lc-desc { font-size: 12.5px; color: var(--muted); line-height: 1.7; }
+
+    /* Stars row */
+    .stars-row { margin-top: 16px; display: flex; gap: 3px; }
+    .star { font-size: 14px; }
+    .star.empty { opacity: 0.2; }
+
+    /* ─── INFO TABLE ─── */
+    .info-table {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(168,85,247,.07);
+      border: 2px solid #F3E8FF;
+      margin-bottom: 80px;
+    }
+    .it-row {
+      display: flex;
+      border-bottom: 1px solid #F3E8FF;
+      transition: background .15s;
+    }
+    .it-row:last-child { border-bottom: none; }
+    .it-row:hover { background: var(--purple-xl); }
+    .it-key {
+      width: 210px; flex-shrink: 0;
+      padding: 15px 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: .3px;
+      border-right: 1px solid #F3E8FF;
+      display: flex; align-items: center; gap: 8px;
+      background: #FAFAFF;
+    }
+    .it-val {
+      padding: 15px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex; align-items: center;
+    }
+    .it-val .badge-val {
+      background: var(--purple-xl);
+      color: var(--purple-d);
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    /* ─── MOTIVASI BUBBLE ─── */
+    .motivasi-section {
+      margin-bottom: 80px;
+    }
+    .motivasi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .motivasi-bubble {
+      background: white;
+      border-radius: 20px 20px 20px 4px;
+      padding: 20px;
+      border: 2px solid #F3E8FF;
+      box-shadow: 0 4px 16px rgba(168,85,247,.07);
+      position: relative;
+      transition: all .3s cubic-bezier(.34,1.56,.64,1);
+    }
+    .motivasi-bubble:nth-child(2) {
+      border-color: #FED7AA;
+      border-radius: 20px 20px 4px 20px;
+    }
+    .motivasi-bubble:nth-child(3) {
+      border-color: var(--yellow-l);
+      border-radius: 4px 20px 20px 20px;
+    }
+    .motivasi-bubble:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .mb-emoji { font-size: 28px; margin-bottom: 10px; }
+    .mb-text {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.7;
+      font-style: italic;
+    }
+    .mb-author {
+      margin-top: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--purple);
+    }
+    .motivasi-bubble:nth-child(2) .mb-author { color: var(--orange); }
+    .motivasi-bubble:nth-child(3) .mb-author { color: #D97706; }
+
+    /* ─── KONTAK CARDS ─── */
+    .kontak-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 60px;
+    }
+    .kontak-card {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      border: 2px solid #F3E8FF;
+      border-radius: 20px;
+      padding: 22px 24px;
+      background: white;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(168,85,247,.06);
+      transition: all .3s cubic-bezier(.34,1.56,.64,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .kontak-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--purple-xl), white);
+      opacity: 0;
+      transition: opacity .25s;
+    }
+    .kontak-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: var(--purple-l);
+      box-shadow: var(--shadow-lg);
+    }
+    .kontak-card:hover::before { opacity: 1; }
+    .kontak-card:nth-child(2):hover { border-color: #FBCFE8; }
+    .kontak-card:nth-child(2):hover::before { background: linear-gradient(135deg, #FDF2F8, white); }
+    .kontak-card:nth-child(3):hover { border-color: #A5F3FC; }
+    .kontak-card:nth-child(3):hover::before { background: linear-gradient(135deg, #ECFEFF, white); }
+    .kontak-card:nth-child(4):hover { border-color: var(--yellow-l); }
+    .kontak-card:nth-child(4):hover::before { background: linear-gradient(135deg, #FFFBEB, white); }
+
+    .kc-icon-big {
+      width: 60px; height: 60px;
+      border-radius: 18px;
+      background: var(--purple-xl);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(168,85,247,.15);
+      position: relative; z-index: 1;
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+    }
+    .kontak-card:hover .kc-icon-big { transform: scale(1.15) rotate(-5deg); }
+    .kontak-card:nth-child(2) .kc-icon-big { background: #FDF2F8; box-shadow: 0 4px 12px rgba(236,72,153,.15); }
+    .kontak-card:nth-child(3) .kc-icon-big { background: #ECFEFF; box-shadow: 0 4px 12px rgba(6,182,212,.12); }
+    .kontak-card:nth-child(4) .kc-icon-big { background: #FFFBEB; box-shadow: 0 4px 12px rgba(251,191,36,.15); }
+
+    .kc-content { position: relative; z-index: 1; }
+    .kc-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 4px;
+    }
+    .kontak-card:nth-child(2) .kc-label { color: #DB2777; }
+    .kontak-card:nth-child(3) .kc-label { color: #0891B2; }
+    .kontak-card:nth-child(4) .kc-label { color: #D97706; }
+    .kc-val { font-size: 15px; font-weight: 800; color: var(--ink); }
+    .kc-arrow {
+      margin-left: auto;
+      font-size: 18px;
+      color: var(--purple-l);
+      transition: transform .25s;
+      position: relative; z-index: 1;
+    }
+    .kontak-card:hover .kc-arrow { transform: translateX(4px); }
+
+    /* ─── BACK BUTTON ─── */
+    .back-wrap { text-align: center; padding-bottom: 20px; }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: linear-gradient(135deg, var(--ink-2), #1A0530);
+      position: relative;
+      overflow: hidden;
+    }
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--orange), var(--yellow));
+    }
+    .footer-inner {
+      max-width: 1060px; margin: 0 auto;
+      padding: 32px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-brand {
+      font-family: 'Fredoka One', cursive;
+      font-size: 20px;
+      color: white;
+      margin-bottom: 4px;
+    }
+    .footer-brand span { color: var(--orange); }
+    .footer-sub { font-size: 12px; color: rgba(255,255,255,.4); }
+    .footer-sub strong { color: var(--purple-l); }
+    .footer-right { font-size: 12px; color: rgba(255,255,255,.25); }
+
+    /* ─── FLOATING MASCOT ─── */
+    .floating-mascot {
+      position: fixed; bottom: 28px; right: 28px;
+      z-index: 999; cursor: pointer;
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+    }
+    .floating-mascot:hover { transform: translateY(-6px) scale(1.08); }
+    .fm-char { width: 80px; height: auto; display: block; filter: drop-shadow(0 8px 20px rgba(168,85,247,.4)); }
+    .fm-bubble {
+      position: absolute; bottom: 90px; right: 0;
+      background: white; border-radius: 16px 16px 4px 16px;
+      padding: 12px 16px; font-size: 12.5px; font-weight: 800;
+      color: var(--purple-d);
+      box-shadow: var(--shadow-lg);
+      opacity: 0; transform: translateY(10px) scale(.85);
+      transition: opacity .35s, transform .35s;
+      pointer-events: none; max-width: 200px;
+      white-space: normal; text-align: left; line-height: 1.5;
+    }
+    .fm-bubble::after {
+      content: ''; position: absolute; bottom: -8px; right: 20px;
+      border: 8px solid transparent; border-top-color: white; border-bottom: none;
+    }
+    .floating-mascot:hover .fm-bubble,
+    .floating-mascot.show-bubble .fm-bubble { opacity: 1; transform: translateY(0) scale(1); }
+
+    /* ─── ANIMATIONS ─── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-left { opacity: 0; transform: translateX(-24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal-left.visible { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; padding: 80px 24px 60px; gap: 40px; }
+      .hero-right { display: none; }
+      .main { padding: 60px 20px; }
+      .about-strip { grid-template-columns: 1fr; }
+      .fitur-grid { grid-template-columns: 1fr 1fr; }
+      .kontak-grid { grid-template-columns: 1fr; }
+      .motivasi-grid { grid-template-columns: 1fr; }
+      .footer-inner { padding: 24px 20px; }
+    }
+    @media(max-width: 580px) {
+      .fitur-grid { grid-template-columns: 1fr; }
+      .hero-name { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── FLOATING MATH BACKGROUND ─── -->
+<div class="math-bg" aria-hidden="true">
+  <!-- Math symbols -->
+  <div class="math-float" style="left:5%;font-size:40px;animation-duration:22s;animation-delay:0s">+</div>
+  <div class="math-float" style="left:15%;font-size:28px;animation-duration:18s;animation-delay:3s">×</div>
+  <div class="math-float" style="left:25%;font-size:36px;animation-duration:25s;animation-delay:6s">÷</div>
+  <div class="math-float" style="left:40%;font-size:24px;animation-duration:20s;animation-delay:1s">=</div>
+  <div class="math-float" style="left:55%;font-size:44px;animation-duration:17s;animation-delay:4s">−</div>
+  <div class="math-float" style="left:70%;font-size:30px;animation-duration:23s;animation-delay:2s">∑</div>
+  <div class="math-float" style="left:82%;font-size:38px;animation-duration:19s;animation-delay:5s">π</div>
+  <div class="math-float" style="left:90%;font-size:26px;animation-duration:21s;animation-delay:7s">∞</div>
+  <div class="math-float" style="left:48%;font-size:32px;animation-duration:26s;animation-delay:9s">x²</div>
+  <div class="math-float" style="left:32%;font-size:22px;animation-duration:15s;animation-delay:11s">△</div>
+  <div class="math-float" style="left:62%;font-size:34px;animation-duration:24s;animation-delay:8s">◻</div>
+  <!-- Stars -->
+  <div class="star-float" style="left:10%;top:20%;animation-delay:0s;animation-duration:2.5s"></div>
+  <div class="star-float" style="left:30%;top:60%;animation-delay:1s;animation-duration:3.2s;width:12px;height:12px"></div>
+  <div class="star-float" style="left:60%;top:30%;animation-delay:.5s;animation-duration:2.8s;background:var(--purple-l)"></div>
+  <div class="star-float" style="left:80%;top:70%;animation-delay:2s;animation-duration:3.5s;width:6px;height:6px"></div>
+  <div class="star-float" style="left:45%;top:85%;animation-delay:1.5s;animation-duration:2.2s;background:var(--orange-l)"></div>
+</div>
+
+<div id="navbar-container"></div>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-inner">
+    <!-- Left Content -->
+    <div class="hero-left-content">
+      <div class="hero-badge">SIGAP SPLDV · Halaman Developer</div>
+      <h1 class="hero-name">
+        <span class="name-highlight">Vivin Findika</span><br>
+        Aprilla E S
+      </h1>
+      <p class="hero-nim">NIM · 241001029</p>
+      <p class="hero-desc">
+        Mahasiswi Pendidikan Matematika yang bersemangat membangun media pembelajaran interaktif agar siswa SMP benar-benar memahami SPLDV — bukan sekadar menghafal rumus! 🚀
+      </p>
+      <div class="pill-row">
+        <span class="pill pill-purple">Pendidikan Matematika</span>
+        <span class="pill pill-orange">Teknologi Pendidikan</span>
+        <span class="pill pill-white">UNUGIRI</span>
+      </div>
+      <div class="hero-cta">
+        <a href="#tentang" class="btn-primary">Kenalan Yuk! </a>
+        <a href="karakter.html" class="btn-outline"> Beranda</a>
+      </div>
+    </div>
+
+    <!-- Right — Mascot & Decorations -->
+    <div class="hero-right">
+      <!-- Mascot SVG -->
+      <svg class="mascot-main" viewBox="0 0 240 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Shadow -->
+        <ellipse cx="120" cy="295" rx="60" ry="8" fill="rgba(0,0,0,0.15)"/>
+        <!-- Body / Hoodie -->
+        <rect x="60" y="140" width="120" height="110" rx="30" fill="#A855F7"/>
+        <!-- Hoodie detail -->
+        <path d="M100 140 C100 140 120 155 140 140" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- Hoodie pocket -->
+        <rect x="95" y="195" width="50" height="38" rx="12" fill="rgba(255,255,255,0.15)"/>
+        <!-- Math symbol on hoodie -->
+        <text x="120" y="222" text-anchor="middle" font-family="Arial" font-weight="900" font-size="20" fill="white">∑</text>
+        <!-- Arms -->
+        <rect x="20" y="148" width="48" height="24" rx="12" fill="#A855F7"/>
+        <rect x="172" y="148" width="48" height="24" rx="12" fill="#A855F7"/>
+        <!-- Hands -->
+        <circle cx="22" cy="172" r="16" fill="#FBBF7A"/>
+        <circle cx="218" cy="172" r="16" fill="#FBBF7A"/>
+        <!-- Left hand holds pencil -->
+        <rect x="10" y="183" width="6" height="20" rx="3" fill="#FBBF24" transform="rotate(-20 10 183)"/>
+        <polygon points="10,183 16,183 13,175" fill="#EF4444" transform="rotate(-20 13 183)"/>
+        <!-- Legs -->
+        <rect x="82" y="240" width="30" height="50" rx="15" fill="#7C3AED"/>
+        <rect x="128" y="240" width="30" height="50" rx="15" fill="#7C3AED"/>
+        <!-- Shoes -->
+        <ellipse cx="97" cy="292" rx="22" ry="10" fill="#1C1917"/>
+        <ellipse cx="143" cy="292" rx="22" ry="10" fill="#1C1917"/>
+        <!-- Neck -->
+        <rect x="108" y="128" width="24" height="20" rx="8" fill="#FBBF7A"/>
+        <!-- Head -->
+        <circle cx="120" cy="100" r="52" fill="#FBBF7A"/>
+        <!-- Hair -->
+        <ellipse cx="120" cy="56" rx="46" ry="26" fill="#1C1917"/>
+        <ellipse cx="78" cy="70" rx="12" ry="18" fill="#1C1917"/>
+        <ellipse cx="162" cy="70" rx="12" ry="18" fill="#1C1917"/>
+        <!-- Hair highlight -->
+        <ellipse cx="100" cy="52" rx="8" ry="4" fill="#4B4B4B" opacity="0.4"/>
+        <!-- Ears -->
+        <circle cx="68" cy="100" r="14" fill="#FBBF7A"/>
+        <circle cx="172" cy="100" r="14" fill="#FBBF7A"/>
+        <circle cx="68" cy="100" r="8" fill="#F8A070"/>
+        <circle cx="172" cy="100" r="8" fill="#F8A070"/>
+        <!-- Eyes white -->
+        <ellipse cx="104" cy="100" rx="12" ry="14" fill="white"/>
+        <ellipse cx="136" cy="100" rx="12" ry="14" fill="white"/>
+        <!-- Pupils -->
+        <ellipse cx="106" cy="102" rx="6" ry="7" fill="#1C1917"/>
+        <ellipse cx="138" cy="102" rx="6" ry="7" fill="#1C1917"/>
+        <!-- Eye shine -->
+        <circle cx="108" cy="99" r="2" fill="white"/>
+        <circle cx="140" cy="99" r="2" fill="white"/>
+        <!-- Blush -->
+        <ellipse cx="88" cy="114" rx="10" ry="6" fill="#F87171" opacity="0.4"/>
+        <ellipse cx="152" cy="114" rx="10" ry="6" fill="#F87171" opacity="0.4"/>
+        <!-- Smile -->
+        <path d="M106 118 Q120 130 134 118" stroke="#D97706" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <!-- Graduation cap -->
+        <rect x="80" y="52" width="80" height="12" rx="4" fill="#1E1028"/>
+        <rect x="104" y="40" width="32" height="14" rx="4" fill="#1E1028"/>
+        <rect x="118" y="40" width="4" height="26" rx="2" fill="#7C3AED"/>
+        <circle cx="120" cy="66" r="5" fill="#FBBF24"/>
+        <!-- Tassel -->
+        <line x1="160" y1="52" x2="166" y2="68" stroke="#FBBF24" stroke-width="2"/>
+        <ellipse cx="166" cy="70" rx="4" ry="5" fill="#FBBF24"/>
+      </svg>
+
+      <div class="hero-achievement-2">
+        <div class="ha-icon">✨</div>
+        <div>
+          <div class="ha-text-dark">Media Interaktif</div>
+          <div class="ha-sub-dark">Kelas VIII SMP</div>
+        </div>
+      </div>
+
+      <!-- Deco symbols -->
+      <div class="deco-symbol ds-1">x</div>
+      <div class="deco-symbol ds-2">y</div>
+      <div class="deco-symbol ds-3">+</div>
+      <div class="deco-symbol ds-4">=</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MAIN ─── -->
+<main class="main" id="tentang">
+
+  <!-- ABOUT -->
+  <div class="sec-head reveal">
+    <div class="sec-num-badge">01</div>
+    <div class="sec-title-wrap">
+      <div class="sec-label">Tentang</div>
+      <div class="sec-title">Siapa Saya? 🙋‍♀️</div>
+    </div>
+  </div>
+
+  <div class="about-strip reveal">
+    <div class="about-card">
+      <div class="ac-icon-wrap">🎓</div>
+      <div class="ac-label">Akademik</div>
+      <div class="ac-title">Pendidikan Matematika</div>
+      <div class="ac-text">Program Studi Pendidikan Matematika — UNUGIRI. Fokus pada inovasi media pembelajaran berbasis teknologi.</div>
+      <div class="sticky-note">📌 Semester 4</div>
+    </div>
+    <div class="about-card">
+      <div class="ac-icon-wrap">💡</div>
+      <div class="ac-label">Motivasi</div>
+      <div class="ac-title">Belajar Lewat Eksplorasi</div>
+      <div class="ac-text">Mendorong siswa memahami konsep SPLDV secara mendalam melalui latihan interaktif dan umpan balik langsung.</div>
+      <div class="sticky-note">🚀 Let's Explore!</div>
+    </div>
+    <div class="about-card">
+      <div class="ac-icon-wrap">🛠</div>
+      <div class="ac-label">Proyek</div>
+      <div class="ac-title">SIGAP SPLDV</div>
+      <div class="ac-text">Media pembelajaran web untuk siswa SMP Kelas VIII — dikembangkan sebagai tugas akhir mata kuliah Teknologi Pendidikan.</div>
+      <div class="sticky-note">⭐ Tugas Akhir</div>
+    </div>
+  </div>
+
+  <!-- MOTIVASI BUBBLES -->
+  <div class="motivasi-section reveal">
+    <div class="motivasi-grid">
+      <div class="motivasi-bubble">
+        <div class="mb-emoji">🧠</div>
+        <div class="mb-text">"Matematika bukan tentang angka, tapi tentang cara berpikir yang keren!"</div>
+        <div class="mb-author"></div>
+      </div>
+      <div class="motivasi-bubble">
+        <div class="mb-emoji">🔥</div>
+        <div class="mb-text">"SPLDV itu gampang kalau tahu triknya. Yuk buktikan bareng-bareng!"</div>
+        <div class="mb-author"></div>
+      </div>
+      <div class="motivasi-bubble">
+        <div class="mb-emoji">⭐</div>
+        <div class="mb-text">"Setiap soal yang kamu selesaikan adalah satu langkah lebih dekat ke bintang!"</div>
+        <div class="mb-author">— Semangat buat kamu!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <!-- FITUR — LEVEL CARDS -->
+  <div class="sec-head reveal">
+    <div class="sec-num-badge">02</div>
+    <div class="sec-title-wrap">
+      <div class="sec-label">Aplikasi</div>
+      <div class="sec-title">Fitur Utama SIGAP SPLDV 🎮</div>
+    </div>
+  </div>
+
+  <div class="level-section-header reveal">
+    <p style="font-size:14px;color:var(--muted);font-weight:600;">Selesaikan semua level untuk jadi master SPLDV! 🏆</p>
+    <div class="level-progress">6 Level Tersedia ✨</div>
+  </div>
+
+  <div class="fitur-grid reveal">
+    <div class="level-card">
+      <div class="level-badge">Level 1</div>
+      <div class="lc-icon-wrap">📝</div>
+      <div class="lc-level-label">Mulai Petualangan</div>
+      <div class="lc-title">Pretest & Posttest</div>
+      <div class="lc-desc">Ukur kemampuan awal dan akhirmu! Lihat seberapa jauh kamu berkembang setelah belajar SPLDV.</div>
+      <div class="stars-row">
+        <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
+      </div>
+    </div>
+    <div class="level-card">
+      <div class="level-badge">Level 2</div>
+      <div class="lc-icon-wrap">🎬</div>
+      <div class="lc-level-label">Nonton & Pahami</div>
+      <div class="lc-title">Video Tutorial</div>
+      <div class="lc-desc">Video seru penjelasan konsep dan pembahasan soal SPLDV yang bisa ditonton langsung tanpa keluar halaman!</div>
+      <div class="stars-row">
+        <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
+      </div>
+    </div>
+    <div class="level-card">
+      <div class="level-badge">Level 3</div>
+      <div class="lc-icon-wrap">📐</div>
+      <div class="lc-level-label">Lihat Grafiknya!</div>
+      <div class="lc-title">Grafik GeoGebra</div>
+      <div class="lc-desc">Visualisasi interaktif solusi SPLDV — zoom in, geser grafiknya, dan temukan titik potong secara langsung!</div>
+      <div class="stars-row">
+        <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
+      </div>
+    </div>
+    <div class="level-card">
+      <div class="level-badge">Level 4</div>
+      <div class="lc-icon-wrap">✏️</div>
+      <div class="lc-level-label">Latihan Seru</div>
+      <div class="lc-title">Latihan Terstruktur</div>
+      <div class="lc-desc">Mode Guided dan Practice untuk tiap metode — eliminasi, substitusi, dan campuran — dengan umpan balik instan!</div>
+      <div class="stars-row">
+        <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
+      </div>
+    </div>
+    <div class="level-card">
+      <div class="level-badge">Level 5</div>
+      <div class="lc-icon-wrap">📖</div>
+      <div class="lc-level-label">Baca & Pelajari</div>
+      <div class="lc-title">PDF Materi Lengkap</div>
+      <div class="lc-desc">Buku Matematika SPLDV 60 halaman tersedia langsung di halaman materi — tanpa perlu download dulu!</div>
+      <div class="stars-row">
+        <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
+      </div>
+    </div>
+    <div class="level-card">
+      <div class="level-badge">Level 6</div>
+      <div class="lc-icon-wrap">📱</div>
+      <div class="lc-level-label">Main di Mana Aja</div>
+      <div class="lc-title">Responsive Design</div>
+      <div class="lc-desc">Bisa diakses dari laptop, tablet, maupun HP dengan tampilan yang tetap nyaman dan menyenangkan!</div>
+      <div class="stars-row">
+        <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <!-- INFO TABLE -->
+  <div class="sec-head reveal">
+    <div class="sec-num-badge">03</div>
+    <div class="sec-title-wrap">
+      <div class="sec-label">Detail</div>
+      <div class="sec-title">Informasi & Sumber Daya 📋</div>
+    </div>
+  </div>
+
+  <div class="info-table reveal">
+    <div class="it-row"><span class="it-key">📦 Aplikasi</span><span class="it-val"><span class="badge-val">SIGAP SPLDV</span></span></div>
+    <div class="it-row"><span class="it-key">🏷 Versi</span><span class="it-val">1.0.0 — 2025</span></div>
+    <div class="it-row"><span class="it-key">🎯 Target</span><span class="it-val">Siswa SMP/MTs Kelas VIII</span></div>
+    <div class="it-row"><span class="it-key">📚 Kurikulum</span><span class="it-val">Merdeka Belajar — Kelas VIII</span></div>
+    <div class="it-row"><span class="it-key">🌐 GeoGebra</span><span class="it-val">Visualisasi grafik matematika interaktif</span></div>
+    <div class="it-row"><span class="it-key">📋 Google Forms</span><span class="it-val">Platform kuis, pretest & posttest</span></div>
+    <div class="it-row"><span class="it-key">🎨 Adobe Color</span><span class="it-val">Pemilihan skema warna optimal</span></div>
+    <div class="it-row"><span class="it-key">⚖️ Lisensi</span><span class="it-val">© 2025 Teknologi Pendidikan</span></div>
+  </div>
+
+  <div class="hr"></div>
+
+  <!-- KONTAK -->
+  <div class="sec-head reveal">
+    <div class="sec-num-badge">04</div>
+    <div class="sec-title-wrap">
+      <div class="sec-label">Kontak</div>
+      <div class="sec-title">Hubungi Aku! 👋</div>
+    </div>
+  </div>
+
+  <div class="kontak-grid reveal">
+    <a href="mailto:findyyndr@gmail.com" class="kontak-card">
+      <div class="kc-icon-big">✉️</div>
+      <div class="kc-content">
+        <div class="kc-label">Email</div>
+        <div class="kc-val">findyyndr@gmail.com</div>
+      </div>
+      <div class="kc-arrow">→</div>
+    </a>
+    <a href="https://instagram.com/findyn2dr" target="_blank" class="kontak-card">
+      <div class="kc-icon-big">📸</div>
+      <div class="kc-content">
+        <div class="kc-label">Instagram</div>
+        <div class="kc-val">@findyn2dr</div>
+      </div>
+      <div class="kc-arrow">→</div>
+    </a>
+    <div class="kontak-card" style="cursor:default;">
+      <div class="kc-icon-big">🎓</div>
+      <div class="kc-content">
+        <div class="kc-label">Program Studi</div>
+        <div class="kc-val">Pendidikan Matematika</div>
+      </div>
+    </div>
+    <div class="kontak-card" style="cursor:default;">
+      <div class="kc-icon-big">📚</div>
+      <div class="kc-content">
+        <div class="kc-label">Mata Kuliah</div>
+        <div class="kc-val">Teknologi Pendidikan</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="back-wrap">
+    <a href="karakter.html" class="btn-primary" style="display:inline-flex;"> Kembali ke Beranda</a>
+  </div>
+
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">SIGAP <span>SPLDV</span></div>
+      <div class="footer-sub">Dikembangkan oleh <strong>Vivin Findika Aprilla E S</strong> · NIM 241001029 · Pendidikan Matematika</div>
+    </div>
+    <div class="footer-right">© 2025 · Teknologi Pendidikan 🚀</div>
+  </div>
+</footer>
+
+<!-- ─── FLOATING MASCOT ─── -->
+<div class="floating-mascot" id="floatMascot" onclick="toggleBubble()">
+  <div class="fm-bubble" id="fmBubble">Hei! Ada yang bisa aku bantu? 😊</div>
+  <svg class="fm-char" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="50" cy="126" rx="28" ry="6" fill="rgba(0,0,0,0.12)"/>
+    <rect x="32" y="92" width="14" height="28" rx="7" fill="#7C3AED"/>
+    <rect x="54" y="92" width="14" height="28" rx="7" fill="#7C3AED"/>
+    <ellipse cx="39" cy="120" rx="10" ry="6" fill="#1C1917"/>
+    <ellipse cx="61" cy="120" rx="10" ry="6" fill="#1C1917"/>
+    <rect x="24" y="56" width="52" height="42" rx="14" fill="#A855F7"/>
+    <path d="M38 56 L50 66 L62 56" fill="white" opacity=".9"/>
+    <text x="50" y="85" text-anchor="middle" font-size="12" font-weight="900" fill="white">∑</text>
+    <rect x="10" y="60" width="16" height="28" rx="8" fill="#A855F7"/>
+    <rect x="74" y="60" width="16" height="28" rx="8" fill="#A855F7"/>
+    <circle cx="18" cy="90" r="8" fill="#FBBF7A"/>
+    <circle cx="82" cy="90" r="8" fill="#FBBF7A"/>
+    <circle cx="50" cy="32" r="22" fill="#FBBF7A"/>
+    <ellipse cx="50" cy="18" rx="20" ry="12" fill="#1C1917"/>
+    <circle cx="32" cy="32" r="7" fill="#FBBF7A"/>
+    <circle cx="68" cy="32" r="7" fill="#FBBF7A"/>
+    <ellipse cx="42" cy="32" rx="4" ry="5" fill="white"/>
+    <ellipse cx="58" cy="32" rx="4" ry="5" fill="white"/>
+    <ellipse cx="43" cy="33" rx="2" ry="2.5" fill="#1C1917"/>
+    <ellipse cx="59" cy="33" rx="2" ry="2.5" fill="#1C1917"/>
+    <ellipse cx="38" cy="40" rx="5" ry="3" fill="#F87171" opacity="0.5"/>
+    <ellipse cx="62" cy="40" rx="5" ry="3" fill="#F87171" opacity="0.5"/>
+    <path d="M42 40 Q50 46 58 40" stroke="#D97706" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <!-- Graduation cap mini -->
+    <rect x="34" y="14" width="32" height="6" rx="2" fill="#1E1028"/>
+    <rect x="44" y="10" width="12" height="6" rx="2" fill="#1E1028"/>
+    <circle cx="50" cy="20" r="2.5" fill="#FBBF24"/>
+  </svg>
+</div>
+
+<script src="assets/js/navbar.js"></script>
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal, .reveal-left');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => obs.observe(el));
+
+  // Floating mascot
+  let bubbleTimeout;
+  setTimeout(() => {
+    const m = document.getElementById('floatMascot');
+    m.classList.add('show-bubble');
+    bubbleTimeout = setTimeout(() => m.classList.remove('show-bubble'), 4000);
+  }, 2000);
+
+  const messages = [
+    "Hei! Ada yang bisa aku bantu? 😊",
+    "Yuk mulai dari Pretest dulu! 🎯",
+    "SPLDV itu seru lho! 📐",
+    "Semangat belajarnya! 💪",
+    "Kamu pasti bisa! 🌟",
+    "Coba Level Grafik GeoGebra! 🔥"
+  ];
+  let msgIdx = 0;
+  function toggleBubble() {
+    const m = document.getElementById('floatMascot');
+    const b = document.getElementById('fmBubble');
+    clearTimeout(bubbleTimeout);
+    m.classList.remove('show-bubble');
+    b.textContent = messages[msgIdx % messages.length];
+    msgIdx++;
+    setTimeout(() => {
+      m.classList.add('show-bubble');
+      bubbleTimeout = setTimeout(() => m.classList.remove('show-bubble'), 4000);
+    }, 50);
+  }
+</script>
+<script src="assets/js/page-transition.js"></script>
+</body>
+</html>

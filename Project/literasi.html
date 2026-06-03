@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Literasi SPLDV — Petualangan Detektif</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/navbar.css">
+  <style>
+    :root {
+      --yellow:#FFD93D; --yellow-d:#F5A623;
+      --coral:#FF6B6B;  --coral-l:#FFE8E8;
+      --mint:#6BCB77;   --mint-l:#E8F8EA;
+      --sky:#4ECDC4;    --sky-d:#2BBDB4; --sky-l:#E0FAF8;
+      --purple:#C77DFF; --purple-l:#F3E8FF;
+      --navy:#1A1F4B;   --navy-l:#2D3561;
+      --cream:#FFFBF0;
+      --muted:#8B8FA8;
+      --stroke:3px solid var(--navy);
+      --shadow:4px 4px 0 var(--navy);
+      --shadow-lg:6px 6px 0 var(--navy);
+      --r:20px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--navy);overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;z-index:-1;
+      background-image:radial-gradient(circle,rgba(255,217,61,0.13) 1.5px,transparent 1.5px),radial-gradient(circle,rgba(255,107,107,0.08) 1.5px,transparent 1.5px);
+      background-size:40px 40px,65px 65px;background-position:0 0,20px 20px;}
+
+    .wrapper{max-width:1140px;margin:0 auto;padding:36px 28px 80px;}
+
+    /* HERO LITERASI */
+    .lit-hero{
+      background:var(--coral);
+      border-radius:28px;border:var(--stroke);box-shadow:var(--shadow-lg);
+      padding:44px 52px 0;margin-bottom:20px;
+      position:relative;overflow:hidden;min-height:340px;
+      display:flex;align-items:flex-end;
+    }
+    .lh-blob{position:absolute;border-radius:50%;border:var(--stroke);}
+    .lhb1{width:160px;height:160px;background:var(--yellow);top:-50px;right:320px;}
+    .lhb2{width:80px;height:80px;background:var(--mint);bottom:30px;right:120px;opacity:.7;}
+    .lhb3{width:50px;height:50px;background:var(--purple);top:30px;left:48%;border-radius:14px;transform:rotate(15deg);}
+    .lh-doodle{position:absolute;font-family:'Fredoka One',cursive;font-size:22px;color:var(--navy);opacity:.1;animation:dFloat 4s ease-in-out infinite;}
+    .lh-doodle:nth-child(1){top:15%;left:6%;font-size:28px;animation-delay:0s;}
+    .lh-doodle:nth-child(2){top:55%;left:3%;font-size:16px;animation-delay:1.2s;}
+    .lh-doodle:nth-child(3){top:10%;left:48%;animation-delay:.6s;}
+    @keyframes dFloat{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-12px) rotate(8deg);}}
+
+    .lh-content{position:relative;z-index:2;display:flex;align-items:flex-end;width:100%;gap:0;}
+    .lh-left{flex:1;padding-bottom:44px;}
+    .lh-chip{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:var(--yellow);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;border-radius:20px;margin-bottom:18px;border:2px solid var(--yellow);}
+    .lh-title{font-family:'Fredoka One',cursive;font-size:46px;line-height:1.1;color:var(--navy);margin-bottom:14px;}
+    .lh-title .hl{background:var(--yellow);padding:2px 12px;border-radius:8px;border:2.5px solid var(--navy);display:inline-block;transform:rotate(-1deg);box-shadow:3px 3px 0 var(--navy);}
+    .lh-desc{font-size:14px;font-weight:700;color:var(--navy-l);line-height:1.8;max-width:440px;opacity:.85;}
+    .lh-chibi{width:250px;flex-shrink:0;position:relative;z-index:2;align-self:flex-end;cursor:grab;user-select:none;transition:transform.2s;}
+    .lh-chibi:active{cursor:grabbing;}
+    .lh-chibi svg{width:100%;height:auto;display:block;pointer-events:none;}
+
+    /* PROGRESS BAR */
+    .prog-bar{background:white;border-radius:var(--r);border:var(--stroke);box-shadow:var(--shadow);padding:20px 28px;margin-bottom:20px;}
+    .pb-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+    .pb-label{font-family:'Fredoka One',cursive;font-size:16px;color:var(--navy);}
+    .pb-count{font-size:13px;font-weight:900;color:var(--muted);}
+    .pb-count span{color:var(--coral);font-size:18px;}
+    .pb-track{height:14px;background:#F0F0F0;border-radius:20px;border:2px solid var(--navy);overflow:hidden;}
+    .pb-fill{height:100%;background:linear-gradient(90deg,var(--coral),var(--yellow));border-radius:20px;transition:width .6s cubic-bezier(.34,1.56,.64,1);width:0%;}
+    .pb-badges{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+    .pb-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;padding:5px 12px;border-radius:20px;border:2px solid var(--navy);background:#F5F5F5;color:var(--muted);transition:all .3s;}
+    .pb-badge.earned{background:var(--yellow);color:var(--navy);}
+
+    /* SECTION HEAD */
+    .sec-head{text-align:center;margin:32px 0 20px;}
+    .sec-tag{display:inline-block;background:var(--navy);color:var(--yellow);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;padding:6px 18px;border-radius:20px;margin-bottom:10px;}
+    .sec-title{font-family:'Fredoka One',cursive;font-size:30px;color:var(--navy);margin-bottom:6px;}
+    .sec-sub{font-size:13.5px;font-weight:600;color:var(--muted);max-width:480px;margin:0 auto;line-height:1.7;}
+
+    /* KASUS CARDS */
+    .kasus-card{
+      background:white;border-radius:24px;border:var(--stroke);box-shadow:var(--shadow);
+      margin-bottom:16px;overflow:hidden;
+      transition:box-shadow .2s;
+    }
+    .kasus-card:hover{box-shadow:var(--shadow-lg);}
+
+    .kc-header{
+      display:flex;align-items:center;gap:20px;padding:24px 28px;
+      cursor:pointer;transition:background .18s;
+      position:relative;
+    }
+    .kc-header:hover{background:#FAFAFA;}
+    .kasus-card.open .kc-header{border-bottom:2.5px solid #EEEEEE;}
+
+    .kc-num{
+      width:52px;height:52px;border-radius:16px;border:var(--stroke);
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Fredoka One',cursive;font-size:22px;color:white;
+      flex-shrink:0;box-shadow:var(--shadow);
+    }
+    .kc-n1{background:var(--sky-d);}
+    .kc-n2{background:var(--yellow-d);color:var(--navy);}
+    .kc-n3{background:#9B5DE5;}
+
+    .kc-emoji{font-size:36px;flex-shrink:0;}
+    .kc-info{flex:1;}
+    .kc-tag{font-size:10px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+    .kc-title{font-family:'Fredoka One',cursive;font-size:22px;color:var(--navy);}
+    .kc-preview{font-size:12px;font-weight:600;color:var(--muted);margin-top:2px;}
+
+    .kc-status{
+      display:flex;align-items:center;gap:6px;
+      font-size:12px;font-weight:800;padding:8px 16px;
+      border-radius:20px;border:2px solid var(--navy);
+      background:#FFF3CD;color:var(--navy);
+      white-space:nowrap;flex-shrink:0;
+      transition:all .3s;
+    }
+    .kc-status.solved{background:var(--mint-l);color:#155724;border-color:var(--mint);}
+    .kc-arrow{font-size:14px;color:var(--muted);transition:transform .3s;flex-shrink:0;margin-left:8px;}
+    .kasus-card.open .kc-arrow{transform:rotate(180deg);}
+
+    /* KASUS BODY */
+    .kc-body{display:none;padding:28px 32px 32px;}
+    .kasus-card.open .kc-body{display:block;animation:fadeUp .35s ease;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+
+    .kc-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+
+    /* CERITA */
+    .cerita-box{
+      background:var(--cream);border-radius:16px;
+      border:2.5px solid #EEE8D4;padding:22px 24px;
+    }
+    .cb-label{font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+    .cerita-text{font-size:14px;font-weight:600;color:var(--navy);line-height:2;margin-bottom:16px;}
+    .cerita-text strong{color:var(--coral);}
+    .cerita-pertanyaan{
+      background:var(--navy);border-radius:12px;padding:14px 18px;
+      font-family:'Fredoka One',cursive;font-size:15px;color:var(--yellow);
+    }
+
+    /* MODEL SPLDV */
+    .model-box{background:var(--navy);border-radius:16px;border:var(--stroke);padding:22px 24px;}
+    .mb-label{font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--yellow);margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+    .mb-var{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+    .mb-var-item{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;color:white;}
+    .mb-var-item span{color:var(--yellow);font-family:'Fredoka One',cursive;font-size:15px;}
+    .mb-eq{margin-bottom:8px;}
+    .mb-eq-line{
+      display:flex;align-items:center;gap:10px;
+      background:rgba(255,255,255,.07);border-radius:10px;
+      padding:12px 16px;margin-bottom:8px;
+      border:1.5px solid rgba(255,255,255,.1);
+    }
+    .mb-eq-num{width:24px;height:24px;border-radius:50%;background:var(--yellow);color:var(--navy);font-family:'Fredoka One',cursive;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .mb-eq-text{font-family:'Fredoka One',cursive;font-size:16px;color:white;}
+    .mb-eq-note{font-size:11px;font-weight:700;color:rgba(255,255,255,.45);margin-left:auto;}
+
+    /* PENYELESAIAN */
+    .penyelesaian-wrap{margin-bottom:20px;}
+    .pyw-label{font-size:12px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+    .pyw-steps{display:flex;flex-direction:column;gap:0;}
+    .pyw-step{
+      display:flex;gap:16px;align-items:flex-start;
+      padding:16px 20px;background:white;
+      border:2.5px solid var(--navy);margin-bottom:-2px;
+      position:relative;
+    }
+    .pyw-step:first-child{border-radius:16px 16px 0 0;}
+    .pyw-step:last-child{border-radius:0 0 16px 16px;margin-bottom:0;}
+    .pyw-step.single{border-radius:16px;margin-bottom:0;}
+    .pyw-dot{width:32px;height:32px;border-radius:50%;border:2.5px solid var(--navy);display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:14px;color:white;flex-shrink:0;}
+    .pwd-1{background:var(--sky-d);}
+    .pwd-2{background:var(--yellow-d);color:var(--navy);}
+    .pwd-3{background:#9B5DE5;}
+    .pwd-4{background:var(--mint);}
+    .pyw-content{}
+    .pyw-title{font-size:13px;font-weight:900;color:var(--navy);margin-bottom:4px;}
+    .pyw-calc{font-family:'Fredoka One',cursive;font-size:14px;color:var(--navy-l);line-height:1.8;}
+    .pyw-calc .hi{color:var(--coral);}
+    .pyw-calc .ok{color:var(--mint);}
+
+    /* REVEAL BUTTON */
+    .reveal-wrap{text-align:center;margin-bottom:20px;}
+    .btn-reveal{
+      display:inline-flex;align-items:center;gap:10px;
+      background:var(--navy);color:white;
+      font-size:14px;font-weight:900;
+      padding:14px 28px;border-radius:14px;
+      border:var(--stroke);box-shadow:var(--shadow);
+      cursor:pointer;transition:all .2s;
+      font-family:'Nunito',sans-serif;
+    }
+    .btn-reveal:hover{transform:translate(-2px,-2px);box-shadow:var(--shadow-lg);}
+    .btn-reveal.revealed{background:var(--mint);color:var(--navy);pointer-events:none;}
+
+    .answer-box{
+      display:none;
+      background:linear-gradient(135deg,#D4EDDA,#B8E6C1);
+      border-radius:16px;border:2.5px solid var(--mint);
+      padding:22px 26px;margin-top:16px;
+      animation:fadeUp .35s ease;
+    }
+    .answer-box.show{display:block;}
+    .ab-title{font-family:'Fredoka One',cursive;font-size:22px;color:#155724;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+    .ab-result{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px;}
+    .ab-val{
+      background:white;border-radius:12px;border:2.5px solid var(--mint);
+      padding:12px 20px;text-align:center;
+      box-shadow:3px 3px 0 var(--mint);
+    }
+    .ab-val-label{font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+    .ab-val-num{font-family:'Fredoka One',cursive;font-size:24px;color:#155724;}
+    .ab-cek{font-size:13px;font-weight:700;color:#1E5631;line-height:1.7;}
+
+    /* REFLEKSI */
+    .refleksi-box{
+      background:var(--yellow);border-radius:16px;border:var(--stroke);
+      padding:18px 22px;display:flex;gap:14px;align-items:flex-start;
+    }
+    .rb-icon{font-size:28px;flex-shrink:0;}
+    .rb-text{font-size:13.5px;font-weight:700;color:var(--navy);line-height:1.8;}
+    .rb-text strong{font-weight:900;}
+
+    /* NAV BUTTONS */
+    .nav-btns{display:flex;gap:12px;justify-content:center;margin-top:32px;flex-wrap:wrap;}
+    .btn{display:inline-flex;align-items:center;gap:8px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;padding:13px 24px;border-radius:14px;text-decoration:none;cursor:pointer;border:var(--stroke);transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .btn:hover{transform:translate(-2px,-2px);box-shadow:var(--shadow-lg);}
+    .btn-yellow{background:var(--yellow);color:var(--navy);}
+    .btn-navy{background:var(--navy);color:white;}
+    .btn-white{background:white;color:var(--navy);}
+
+    /* FLOATING CHIBI */
+    .float-chibi{position:fixed;bottom:24px;right:24px;z-index:999;cursor:pointer;transition:transform .3s cubic-bezier(.34,1.56,.64,1);filter:drop-shadow(4px 4px 0 var(--navy));}
+    .float-chibi:hover{transform:translateY(-8px) scale(1.06);}
+    .float-chibi svg{width:82px;height:auto;display:block;}
+    .fc-bubble{position:absolute;bottom:96px;right:0;background:white;border:var(--stroke);border-radius:18px 18px 4px 18px;padding:12px 16px;font-size:13px;font-weight:800;color:var(--navy);box-shadow:var(--shadow);white-space:normal;max-width:200px;line-height:1.5;opacity:0;transform:translateY(10px) scale(.85);transition:opacity .35s cubic-bezier(.34,1.26,.64,.99), transform .35s cubic-bezier(.34,1.26,.64,.99);pointer-events:none;}
+    .fc-bubble::after{content:'';position:absolute;bottom:-11px;right:18px;border-left:10px solid transparent;border-right:10px solid transparent;border-top:11px solid var(--navy);}
+    .fc-bubble::before{content:'';position:absolute;bottom:-7px;right:20px;border-left:8px solid transparent;border-right:8px solid transparent;border-top:8px solid white;z-index:1;}
+    .float-chibi:hover .fc-bubble{opacity:1;transform:translateY(0) scale(1);}
+    .float-chibi.active .fc-bubble{opacity:1;transform:translateY(0) scale(1);}
+
+    /* FOOTER */
+    .footer{background:var(--navy);border-top:var(--stroke);}
+    .footer-inner{max-width:1140px;margin:0 auto;padding:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+    .footer-brand{font-family:'Fredoka One',cursive;font-size:18px;color:var(--yellow);margin-bottom:4px;}
+    .footer-sub{font-size:12px;font-weight:600;color:rgba(255,255,255,.4);}
+    .footer-sub span{color:#6EE7B7;}
+
+    /* ANIM */
+    .anim{opacity:0;transform:translateY(20px);animation:fadeUp .5s ease forwards;}
+    .a1{animation-delay:.06s}.a2{animation-delay:.14s}.a3{animation-delay:.22s}
+
+    @media(max-width:900px){
+      body {
+        padding-bottom: 80px;
+      }
+      .lh-title{font-size:32px;}
+      .lh-chibi{width:180px;}
+      .kc-layout{grid-template-columns:1fr;}
+      .lh-content{flex-direction:column;align-items:center;}
+      .lh-left{padding-bottom:0;}
+    }
+    @media(max-width:600px){
+      body {
+        padding-bottom: 80px;
+      }
+      .wrapper{padding:20px 16px 60px;}
+      .kc-header{padding:16px 18px;gap:12px;}
+      .kc-body{padding:20px 18px 24px;}
+      .kc-status{display:none;}
+      .lh-hero{padding:28px 20px 0;}
+    }
+  </style>
+  <link rel="stylesheet" href="assets/css/page-transition.css">
+</head>
+<body>
+
+<!-- ── NAVBAR CONTAINER ── -->
+<div id="navbar-container"></div>
+
+<div class="wrapper">
+
+<!-- HERO -->
+<div class="lit-hero anim">
+  <div class="lh-blob lhb1"></div>
+  <div class="lh-blob lhb2"></div>
+  <div class="lh-blob lhb3"></div>
+  <span class="lh-doodle">🔍</span>
+  <span class="lh-doodle">?</span>
+  <span class="lh-doodle">!</span>
+
+  <div class="lh-content">
+    <div class="lh-left">
+      <div class="lh-chip">🕵️ Literasi Matematika</div>
+      <div class="lh-title">Jadi <span class="hl">Detektif</span><br>SPLDV!</div>
+      <div class="lh-desc">Pecahkan 3 kasus nyata dari kehidupan sehari-hari menggunakan SPLDV. Setiap kasus punya cerita, persamaan, dan penyelesaian yang bisa kamu ungkap sendiri! 🕵️‍♀️</div>
+    </div>
+
+    <!-- CHIBI DETEKTIF -->
+    <div class="lh-chibi">
+      <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="100" cy="296" rx="48" ry="8" fill="rgba(0,0,0,.12)"/>
+        <!-- kaki -->
+        <rect x="64" y="218" width="24" height="64" rx="12" fill="#1A3A6B"/>
+        <rect x="112" y="218" width="24" height="64" rx="12" fill="#1A3A6B"/>
+        <rect x="52" y="270" width="40" height="18" rx="9" fill="#1A1F4B"/>
+        <rect x="108" y="270" width="40" height="18" rx="9" fill="#1A1F4B"/>
+        <!-- badan — jas coklat detektif -->
+        <rect x="44" y="136" width="112" height="94" rx="22" fill="#8B5E3C"/>
+        <rect x="44" y="136" width="112" height="28" rx="22" fill="#6B4226"/>
+        <rect x="44" y="152" width="112" height="12" fill="#6B4226"/>
+        <!-- kerah putih -->
+        <path d="M82 164 L100 186 L118 164" fill="white" stroke="#1A1F4B" stroke-width="2.5" stroke-linejoin="round"/>
+        <!-- dasi kuning -->
+        <path d="M97 170 L100 200 L103 170 L100 165Z" fill="#FFD93D" stroke="#1A1F4B" stroke-width="2" stroke-linejoin="round"/>
+        <!-- kancing -->
+        <circle cx="100" cy="210" r="4" fill="#6B4226" stroke="#1A1F4B" stroke-width="1.5"/>
+        <circle cx="100" cy="224" r="4" fill="#6B4226" stroke="#1A1F4B" stroke-width="1.5"/>
+        <!-- lengan kiri — kaca pembesar -->
+        <rect x="10" y="144" width="38" height="68" rx="19" fill="#8B5E3C" stroke="#1A1F4B" stroke-width="2.5"/>
+        <rect x="10" y="144" width="38" height="22" rx="19" fill="#6B4226"/>
+        <rect x="10" y="158" width="38" height="8" fill="#6B4226"/>
+        <circle cx="29" cy="220" r="16" fill="#FFBE7A" stroke="#1A1F4B" stroke-width="2.5"/>
+        <!-- kaca pembesar -->
+        <circle cx="12" cy="210" r="20" fill="none" stroke="#FFD93D" stroke-width="4"/>
+        <circle cx="12" cy="210" r="20" fill="rgba(255,255,255,.15)"/>
+        <line x1="26" y1="224" x2="38" y2="238" stroke="#FFD93D" stroke-width="5" stroke-linecap="round"/>
+        <!-- lengan kanan — catatan -->
+        <rect x="152" y="140" width="38" height="68" rx="19" fill="#8B5E3C" stroke="#1A1F4B" stroke-width="2.5"/>
+        <rect x="152" y="140" width="38" height="22" rx="19" fill="#6B4226"/>
+        <rect x="152" y="154" width="38" height="8" fill="#6B4226"/>
+        <circle cx="171" cy="216" r="16" fill="#FFBE7A" stroke="#1A1F4B" stroke-width="2.5"/>
+        <!-- buku catatan -->
+        <rect x="175" y="194" width="32" height="40" rx="6" fill="#4ECDC4" stroke="#1A1F4B" stroke-width="2.5"/>
+        <rect x="175" y="194" width="7" height="40" rx="4" fill="#2BBDB4"/>
+        <line x1="185" y1="202" x2="204" y2="202" stroke="white" stroke-width="1.5" opacity=".6"/>
+        <line x1="185" y1="208" x2="204" y2="208" stroke="white" stroke-width="1.5" opacity=".6"/>
+        <line x1="185" y1="214" x2="204" y2="214" stroke="white" stroke-width="1.5" opacity=".6"/>
+        <!-- leher -->
+        <rect x="84" y="122" width="32" height="20" rx="10" fill="#FFBE7A" stroke="#1A1F4B" stroke-width="2.5"/>
+        <!-- kepala besar chibi -->
+        <ellipse cx="100" cy="76" rx="66" ry="64" fill="#FFBE7A" stroke="#1A1F4B" stroke-width="3"/>
+        <!-- topi detektif -->
+        <ellipse cx="100" cy="22" rx="66" ry="22" fill="#6B4226" stroke="#1A1F4B" stroke-width="2.5"/>
+        <rect x="34" y="20" width="132" height="28" rx="0" fill="#8B5E3C"/>
+        <rect x="28" y="42" width="144" height="10" rx="5" fill="#6B4226" stroke="#1A1F4B" stroke-width="2"/>
+        <rect x="34" y="20" width="132" height="8" rx="0" fill="#8B5E3C"/>
+        <ellipse cx="100" cy="20" rx="66" ry="10" fill="#8B5E3C" stroke="#1A1F4B" stroke-width="2"/>
+        <!-- band topi kuning -->
+        <rect x="34" y="36" width="132" height="8" rx="0" fill="#FFD93D"/>
+        <!-- telinga -->
+        <ellipse cx="34" cy="80" rx="13" ry="17" fill="#FFBE7A" stroke="#1A1F4B" stroke-width="2.5"/>
+        <ellipse cx="166" cy="80" rx="13" ry="17" fill="#FFBE7A" stroke="#1A1F4B" stroke-width="2.5"/>
+        <ellipse cx="34" cy="80" rx="6" ry="9" fill="#FFA07A" opacity=".4"/>
+        <ellipse cx="166" cy="80" rx="6" ry="9" fill="#FFA07A" opacity=".4"/>
+        <!-- mata -->
+        <ellipse cx="76" cy="80" rx="15" ry="16" fill="white" stroke="#1A1F4B" stroke-width="2.5"/>
+        <ellipse cx="124" cy="80" rx="15" ry="16" fill="white" stroke="#1A1F4B" stroke-width="2.5"/>
+        <ellipse cx="78" cy="83" rx="9" ry="10" fill="#2D2D3A"/>
+        <ellipse cx="126" cy="83" rx="9" ry="10" fill="#2D2D3A"/>
+        <circle cx="83" cy="79" r="3.5" fill="white"/>
+        <circle cx="131" cy="79" r="3.5" fill="white"/>
+        <!-- alis serius detektif -->
+        <path d="M62 64 Q76 56 90 62" stroke="#1A1F4B" stroke-width="3.5" stroke-linecap="round" fill="none" transform="rotate(-5,76,60)"/>
+        <path d="M110 62 Q124 56 138 64" stroke="#1A1F4B" stroke-width="3.5" stroke-linecap="round" fill="none" transform="rotate(5,124,60)"/>
+        <!-- hidung -->
+        <ellipse cx="100" cy="98" rx="5" ry="4" fill="#E8935A" opacity=".5"/>
+        <!-- mulut serius tapi cute -->
+        <path d="M82 110 Q100 120 118 110" stroke="#1A1F4B" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <!-- pipi -->
+        <ellipse cx="56" cy="96" rx="14" ry="10" fill="#FF9EB5" opacity=".45"/>
+        <ellipse cx="144" cy="96" rx="14" ry="10" fill="#FF9EB5" opacity=".45"/>
+        <!-- tanda tanya di atas kepala -->
+        <text x="148" y="20" font-size="22" fill="#FFD93D" font-family="Fredoka One" font-weight="900">?</text>
+        <style>
+          @keyframes detBlink{0%,85%,100%{transform:scaleY(1);}93%{transform:scaleY(0.07);}}
+          .det-el{animation:detBlink 3.5s ease-in-out infinite;transform-origin:76px 80px;}
+          .det-er{animation:detBlink 3.5s ease-in-out infinite .08s;transform-origin:124px 80px;}
+        </style>
+        <g class="det-el">
+          <ellipse cx="76" cy="80" rx="15" ry="16" fill="white" stroke="#1A1F4B" stroke-width="2.5"/>
+          <ellipse cx="78" cy="83" rx="9" ry="10" fill="#2D2D3A"/>
+          <circle cx="83" cy="79" r="3.5" fill="white"/>
+        </g>
+        <g class="det-er">
+          <ellipse cx="124" cy="80" rx="15" ry="16" fill="white" stroke="#1A1F4B" stroke-width="2.5"/>
+          <ellipse cx="126" cy="83" rx="9" ry="10" fill="#2D2D3A"/>
+          <circle cx="131" cy="79" r="3.5" fill="white"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="prog-bar anim a1">
+  <div class="pb-top">
+    <div class="pb-label">🕵️ Progress Investigasi</div>
+    <div class="pb-count"><span id="solvedCount">0</span>/3 Kasus Terpecahkan</div>
+  </div>
+  <div class="pb-track"><div class="pb-fill" id="pbFill"></div></div>
+  <div class="pb-badges">
+    <div class="pb-badge" id="badge1">🥤 Kasus Es Teh</div>
+    <div class="pb-badge" id="badge2">🛵 Kasus Ojek</div>
+    <div class="pb-badge" id="badge3">📦 Kasus Mie & Telur</div>
+  </div>
+</div>
+
+<!-- SECTION HEAD -->
+<div class="sec-head anim a2">
+  <div class="sec-tag">🔍 3 Kasus Investigasi</div>
+  <div class="sec-title">Pecahkan Semua Kasusnya!</div>
+  <div class="sec-sub">Klik tiap kasus, baca ceritanya, pahami model SPLDV-nya, lalu ungkap jawabannya!</div>
+</div>
+
+<!-- ══════════════
+     KASUS 1
+══════════════ -->
+<div class="kasus-card anim a2" id="kasus1">
+  <div class="kc-header" onclick="toggleKasus('kasus1')">
+    <div class="kc-num kc-n1">1</div>
+    <div class="kc-emoji">🥤</div>
+    <div class="kc-info">
+      <div class="kc-tag">Warung Kantin Sekolah</div>
+      <div class="kc-title">Misteri Es Teh & Gorengan</div>
+      <div class="kc-preview">2 variabel · metode eliminasi · konteks kantin sekolah</div>
+    </div>
+    <div class="kc-status" id="ks1">🔓 Belum Terpecahkan</div>
+    <div class="kc-arrow">▼</div>
+  </div>
+  <div class="kc-body">
+    <div class="kc-layout">
+      <!-- CERITA -->
+      <div class="cerita-box">
+        <div class="cb-label">📖 Cerita Kasus</div>
+        <div class="cerita-text">
+          Di kantin sekolah, <strong>Dinda</strong> membeli <strong>2 gelas es teh</strong> dan <strong>3 gorengan</strong>, ia membayar <strong>Rp7.000</strong>.<br><br>
+          Sementara teman sebangkunya membeli <strong>1 gelas es teh</strong> dan <strong>5 gorengan</strong>, ia membayar <strong>Rp8.000</strong>.<br><br>
+          Pak Kantin tidak memasang daftar harga. Bisakah kamu membantu mencari harga satuan?
+        </div>
+        <div class="cerita-pertanyaan">🤔 Berapa harga 1 es teh dan 1 gorengan?</div>
+      </div>
+      <!-- MODEL -->
+      <div class="model-box">
+        <div class="mb-label">📐 Pemodelan SPLDV</div>
+        <div class="mb-var">
+          <div class="mb-var-item"><span>x</span> = harga 1 es teh</div>
+          <div class="mb-var-item"><span>y</span> = harga 1 gorengan</div>
+        </div>
+        <div class="mb-eq">
+          <div class="mb-eq-line">
+            <div class="mb-eq-num">1</div>
+            <div class="mb-eq-text">2x + 3y = 7.000</div>
+            <div class="mb-eq-note">pembelian Dinda</div>
+          </div>
+          <div class="mb-eq-line">
+            <div class="mb-eq-num">2</div>
+            <div class="mb-eq-text">x + 5y = 8.000</div>
+            <div class="mb-eq-note">pembelian teman</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PENYELESAIAN -->
+    <div class="penyelesaian-wrap">
+      <div class="pyw-label">🔢 Langkah Penyelesaian (Metode Eliminasi)</div>
+      <div class="pyw-steps">
+        <div class="pyw-step">
+          <div class="pyw-dot pwd-1">1</div>
+          <div class="pyw-content">
+            <div class="pyw-title">Samakan koefisien x — kalikan P2 dengan 2</div>
+            <div class="pyw-calc">
+              P1: 2x + 3y = 7.000<br>
+              P2 × 2: <span class="hi">2x + 10y = 16.000</span>
+            </div>
+          </div>
+        </div>
+        <div class="pyw-step">
+          <div class="pyw-dot pwd-2">2</div>
+          <div class="pyw-content">
+            <div class="pyw-title">Kurangkan P1 dari P2 × 2 → eliminasi x</div>
+            <div class="pyw-calc">
+              (2x + 10y) − (2x + 3y) = 16.000 − 7.000<br>
+              7y = 9.000 → <span class="ok">y = 1.000</span>
+            </div>
+          </div>
+        </div>
+        <div class="pyw-step">
+          <div class="pyw-dot pwd-3">3</div>
+          <div class="pyw-content">
+            <div class="pyw-title">Substitusi y = 1.000 ke P1</div>
+            <div class="pyw-calc">
+              2x + 3(1.000) = 7.000<br>
+              2x = 4.000 → <span class="ok">x = 2.000</span>... tunggu!
+            </div>
+          </div>
+        </div>
+        <div class="pyw-step">
+          <div class="pyw-dot pwd-3">3</div>
+          <div class="pyw-content">
+            <div class="pyw-title">Substitusi y = 1.000 ke P2</div>
+            <div class="pyw-calc">
+              x + 5(1.000) = 8.000<br>
+              x = 8.000 − 5.000 → <span class="ok">x = 3.000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal-wrap">
+      <button class="btn-reveal" id="br1" onclick="revealAnswer('ans1','ks1','badge1','br1')">
+        🔍 Ungkap Jawaban!
+      </button>
+    </div>
+
+    <div class="answer-box" id="ans1">
+      <div class="ab-title">✅ Kasus Terpecahkan!</div>
+      <div class="ab-result">
+        <div class="ab-val">
+          <div class="ab-val-label">Harga Es Teh</div>
+          <div class="ab-val-num">Rp3.000</div>
+        </div>
+        <div class="ab-val">
+          <div class="ab-val-label">Harga Gorengan</div>
+          <div class="ab-val-num">Rp1.000</div>
+        </div>
+      </div>
+      <div class="ab-cek">✔ Cek P1: 2(3.000) + 3(1.000) = 6.000 + 3.000 = <strong>7.000 ✓</strong><br>✔ Cek P2: 3.000 + 5(1.000) = 3.000 + 5.000 = <strong>8.000 ✓</strong></div>
+    </div>
+
+    <div class="refleksi-box" style="margin-top:16px;">
+      <div class="rb-icon">💡</div>
+      <div class="rb-text"><strong>Refleksi:</strong> Ternyata masalah sehari-hari di kantin sekolah bisa diselesaikan dengan SPLDV! Ketika ada <strong>dua hal yang tidak diketahui</strong> dan <strong>dua informasi berbeda</strong>, itulah saatnya SPLDV digunakan.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════
+     KASUS 2
+══════════════ -->
+<div class="kasus-card anim a2" id="kasus2">
+  <div class="kc-header" onclick="toggleKasus('kasus2')">
+    <div class="kc-num kc-n2">2</div>
+    <div class="kc-emoji">🛵</div>
+    <div class="kc-info">
+      <div class="kc-tag">Transportasi Sehari-hari</div>
+      <div class="kc-title">Tarif Ojek & Angkot</div>
+      <div class="kc-preview">2 variabel · metode substitusi · konteks transportasi</div>
+    </div>
+    <div class="kc-status" id="ks2">🔓 Belum Terpecahkan</div>
+    <div class="kc-arrow">▼</div>
+  </div>
+  <div class="kc-body">
+    <div class="kc-layout">
+      <div class="cerita-box">
+        <div class="cb-label">📖 Cerita Kasus</div>
+        <div class="cerita-text">
+          <strong>Andi</strong> berangkat sekolah naik ojek sejauh <strong>2 km</strong> lalu lanjut <strong>1 kali angkot</strong>. Total ongkosnya <strong>Rp18.000</strong>.<br><br>
+          <strong>Rina</strong> yang tinggal lebih jauh naik ojek sejauh <strong>1 km</strong> lalu <strong>3 kali angkot</strong>. Ia membayar <strong>Rp21.000</strong>.<br><br>
+          Pak ojek dan kondektur tidak memasang tarif resmi!
+        </div>
+        <div class="cerita-pertanyaan">🤔 Berapa tarif ojek per km dan ongkos angkot per naik?</div>
+      </div>
+      <div class="model-box">
+        <div class="mb-label">📐 Pemodelan SPLDV</div>
+        <div class="mb-var">
+          <div class="mb-var-item"><span>x</span> = tarif ojek per km</div>
+          <div class="mb-var-item"><span>y</span> = ongkos angkot per naik</div>
+        </div>
+        <div class="mb-eq">
+          <div class="mb-eq-line">
+            <div class="mb-eq-num">1</div>
+            <div class="mb-eq-text">2x + y = 18.000</div>
+            <div class="mb-eq-note">perjalanan Andi</div>
+          </div>
+          <div class="mb-eq-line">
+            <div class="mb-eq-num">2</div>
+            <div class="mb-eq-text">x + 3y = 21.000</div>
+            <div class="mb-eq-note">perjalanan Rina</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="penyelesaian-wrap">
+      <div class="pyw-label">🔢 Langkah Penyelesaian (Metode Substitusi)</div>
+      <div class="pyw-steps">
+        <div class="pyw-step">
+          <div class="pyw-dot pwd-1">1</div>
+          <div class="pyw-content">
+            <div class="pyw-title">Nyatakan y dari Persamaan 1</div>
+            <div class="pyw-calc">2x + y = 18.000<br>y = <span class="hi">18.000 − 2x</span> &nbsp;… (3)</div>
+          </div>
+        </div>
+        <div class="pyw-step">
+          <div class="pyw-dot pwd-2">2</div>
+          <div class="pyw-content">
+            <div class="pyw-title">Substitusi (3) ke Persamaan 2</div>
+            <div class="pyw-calc">
+              x + 3(18.000 − 2x) = 21.000<br>
+              x + 54.000 − 6x = 21.000<br>
+              −5x = −33.000 → <span class="ok">x = 6.600</span>
+            </div>
+          </div>
+        </div>
+        <div class="pyw-step">
+          <div class="pyw-dot pwd-3">3</div>
+          <div class="pyw-content">
+            <div class="pyw-title">Substitusi x = 6.600 ke (3)</div>
+            <div class="pyw-calc">
+              y = 18.000 − 2(6.600)<br>
+              y = 18.000 − 13.200 → <span class="ok">y = 4.800</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal-wrap">
+      <button class="btn-reveal" id="br2" onclick="revealAnswer('ans2','ks2','badge2','br2')">
+        🔍 Ungkap Jawaban!
+      </button>
+    </div>
+
+    <div class="answer-box" id="ans2">
+      <div class="ab-title">✅ Kasus Terpecahkan!</div>
+      <div class="ab-result">
+        <div class="ab-val">
+          <div class="ab-val-label">Tarif Ojek/km</div>
+          <div class="ab-val-num">Rp6.600</div>
+        </div>
+        <div class="ab-val">
+          <div class="ab-val-label">Ongkos Angkot</div>
+          <div class="ab-val-num">Rp4.800</div>
+        </div>
+      </div>
+      <div class="ab-cek">✔ Cek P1: 2(6.600) + 4.800 = 13.200 + 4.800 = <strong>18.000 ✓</strong><br>✔ Cek P2: 6.600 + 3(4.800) = 6.600 + 14.400 = <strong>21.000 ✓</strong></div>
+    </div>
+
+    <div class="refleksi-box" style="margin-top:16px;">
+      <div class="rb-icon">💡</div>
+      <div class="rb-text"><strong>Refleksi:</strong> Masalah tarif transportasi juga bisa diselesaikan pakai SPLDV! Metode Substitusi cocok dipakai saat salah satu persamaan mudah dinyatakan dalam variabel lain.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════
+     KASUS 3
+══════════════ -->
+<div class="kasus-card anim a3" id="kasus3">
+  <div class="kc-header" onclick="toggleKasus('kasus3')">
+    <div class="kc-num kc-n3">3</div>
+    <div class="kc-emoji">📦</div>
+    <div class="kc-info">
+      <div class="kc-tag">Warung Kelontong</div>
+      <div class="kc-title">Harga Mie & Telur</div>
+      <div class="kc-preview">2 variabel · metode eliminasi · konteks warung kelontong</div>
+    </div>
+    <div class="kc-status" id="ks3">🔓 Belum Terpecahkan</div>
+    <div class="kc-arrow">▼</div>
+  </div>
+  <div class="kc-body">
+    <div class="kc-layout">
+      <div class="cerita-box">
+        <div class="cb-label">📖 Cerita Kasus</div>
+        <div class="cerita-text">
+          <strong>Bu Ani</strong> belanja di warung kelontong, membeli <strong>3 bungkus mie</strong> dan <strong>2 butir telur</strong>, membayar <strong>Rp13.000</strong>.<br><br>
+          Kemudian <strong>Pak Budi</strong> datang membeli <strong>5 bungkus mie</strong> dan <strong>4 butir telur</strong>, membayar <strong>Rp24.000</strong>.<br><br>
+          Label harga di warung sudah tidak terbaca!
+        </div>
+        <div class="cerita-pertanyaan">🤔 Berapa harga 1 bungkus mie dan 1 butir telur?</div>
+      </div>
+      <div class="model-box">
+        <div class="mb-label">📐 Pemodelan SPLDV</div>
+        <div class="mb-var">
+          <div class="mb-var-item"><span>x</span> = harga 1 bungkus mie</div>
+          <div class="mb-var-item"><span>y</span> = harga 1 butir telur</div>
+        </div>
+        <div class="mb-eq">
+          <div class="mb-eq-line">
+            <div class="mb-eq-num">1</div>
+            <div class="mb-eq-text">3x + 2y = 13.000</div>
+            <div class="mb-eq-note">belanja Bu Ani</div>
+          </div>
+          <div class="mb-eq-line">
+            <div class="mb-eq-num">2</div>
+            <div class="mb-eq-text">5x + 4y = 24.000</div>
+            <div class="mb-eq-note">belanja Pak Budi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="penyelesaian-wrap">
+      <div class="pyw-label">🔢 Langkah Penyelesaian (Metode Eliminasi)</div>
+      <div class="pyw-steps">
+        <div class="pyw-step">
+          <div class="pyw-dot pwd-1">1</div>
+          <div class="pyw-content">
+            <div class="pyw-title">Samakan koefisien y — kalikan P1 × 2</div>
+            <div class="pyw-calc">
+              P1 × 2: <span class="hi">6x + 4y = 26.000</span><br>
+              P2: 5x + 4y = 24.000
+            </div>
+          </div>
+        </div>
+        <div class="pyw-step">
+          <div class="pyw-dot pwd-2">2</div>
+          <div class="pyw-content">
+            <div class="pyw-title">Kurangkan P2 dari P1 × 2 → eliminasi y</div>
+            <div class="pyw-calc">
+              (6x + 4y) − (5x + 4y) = 26.000 − 24.000<br>
+              x = 2.000 → <span class="ok">x = 2.000</span>
+            </div>
+          </div>
+        </div>
+        <div class="pyw-step">
+          <div class="pyw-dot pwd-3">3</div>
+          <div class="pyw-content">
+            <div class="pyw-title">Substitusi x = 2.000 ke P1</div>
+            <div class="pyw-calc">
+              3(2.000) + 2y = 13.000<br>
+              6.000 + 2y = 13.000<br>
+              2y = 7.000 → <span class="ok">y = 3.500</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal-wrap">
+      <button class="btn-reveal" id="br3" onclick="revealAnswer('ans3','ks3','badge3','br3')">
+        🔍 Ungkap Jawaban!
+      </button>
+    </div>
+
+    <div class="answer-box" id="ans3">
+      <div class="ab-title">✅ Kasus Terpecahkan!</div>
+      <div class="ab-result">
+        <div class="ab-val">
+          <div class="ab-val-label">Harga 1 Mie</div>
+          <div class="ab-val-num">Rp2.000</div>
+        </div>
+        <div class="ab-val">
+          <div class="ab-val-label">Harga 1 Telur</div>
+          <div class="ab-val-num">Rp3.500</div>
+        </div>
+      </div>
+      <div class="ab-cek">✔ Cek P1: 3(2.000) + 2(3.500) = 6.000 + 7.000 = <strong>13.000 ✓</strong><br>✔ Cek P2: 5(2.000) + 4(3.500) = 10.000 + 14.000 = <strong>24.000 ✓</strong></div>
+    </div>
+
+    <div class="refleksi-box" style="margin-top:16px;">
+      <div class="rb-icon">💡</div>
+      <div class="rb-text"><strong>Refleksi:</strong> Hebat! Kamu sudah memecahkan 3 kasus! SPLDV ternyata sangat dekat dengan kehidupan kita sehari-hari. Sekarang saatnya masuk ke materi teori untuk memahami lebih dalam! 🚀</div>
+    </div>
+  </div>
+</div>
+
+<!-- NAVIGASI -->
+<div class="nav-btns">
+  <a href="karakter.html" class="btn btn-white">← Kembali ke Beranda</a>
+  <a href="materi.html" class="btn btn-yellow">Lanjut ke Materi →</a>
+</div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">SIGAP SPLDV</div>
+      <div class="footer-sub">Dikembangkan oleh <span>Vivin Findika Aprilla E S</span> · NIM 241001029 · Pendidikan Matematika</div>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING CHIBI -->
+<div class="float-chibi" id="fc" onclick="toggleFC()">
+  <div class="fc-bubble" id="fcb">Yuk pecahkan kasusnya! 🔍</div>
+  <svg viewBox="0 0 100 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="50" cy="124" rx="28" ry="6" fill="rgba(0,0,0,.14)"/>
+    <rect x="30" y="80" width="16" height="36" rx="8" fill="#1A3A6B"/>
+    <rect x="54" y="80" width="16" height="36" rx="8" fill="#1A3A6B"/>
+    <ellipse cx="38" cy="116" rx="12" ry="7" fill="#1A1F4B"/>
+    <ellipse cx="62" cy="116" rx="12" ry="7" fill="#1A1F4B"/>
+    <rect x="20" y="48" width="60" height="40" rx="14" fill="#8B5E3C" stroke="#1A1F4B" stroke-width="2.5"/>
+    <rect x="20" y="48" width="60" height="16" rx="14" fill="#6B4226"/>
+    <rect x="20" y="56" width="60" height="8" fill="#6B4226"/>
+    <path d="M38 64 L50 78 L62 64" fill="white" stroke="#1A1F4B" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="18" cy="72" r="12" fill="none" stroke="#FFD93D" stroke-width="3"/>
+    <line x1="27" y1="81" x2="34" y2="88" stroke="#FFD93D" stroke-width="3.5" stroke-linecap="round"/>
+    <rect x="12" y="50" width="16" height="30" rx="8" fill="#8B5E3C" stroke="#1A1F4B" stroke-width="2"/>
+    <circle cx="50" cy="20" rx="32" ry="30" fill="#FFBE7A" stroke="#1A1F4B" stroke-width="2.5"/>
+    <ellipse cx="50" cy="2" rx="32" ry="14" fill="#6B4226"/>
+    <rect x="18" y="14" width="64" height="12" rx="0" fill="#8B5E3C"/>
+    <ellipse cx="50" cy="14" rx="32" ry="8" fill="#8B5E3C"/>
+    <rect x="18" y="22" width="64" height="5" rx="2" fill="#FFD93D"/>
+    <ellipse cx="36" cy="22" rx="8" ry="9" fill="white" stroke="#1A1F4B" stroke-width="2"/>
+    <ellipse cx="64" cy="22" rx="8" ry="9" fill="white" stroke="#1A1F4B" stroke-width="2"/>
+    <ellipse cx="38" cy="24" rx="4.5" ry="5.5" fill="#2D2D3A"/>
+    <ellipse cx="66" cy="24" rx="4.5" ry="5.5" fill="#2D2D3A"/>
+    <circle cx="40" cy="22" r="2" fill="white"/>
+    <circle cx="68" cy="22" r="2" fill="white"/>
+    <path d="M38 34 Q50 42 62 34" stroke="#1A1F4B" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <ellipse cx="26" cy="28" rx="8" ry="5.5" fill="#FF9EB5" opacity=".5"/>
+    <ellipse cx="74" cy="28" rx="8" ry="5.5" fill="#FF9EB5" opacity=".5"/>
+  </svg>
+</div>
+
+<script>
+  let solved = 0;
+
+  function toggleKasus(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  function revealAnswer(ansId, statusId, badgeId, btnId) {
+    document.getElementById(ansId).classList.add('show');
+    const st = document.getElementById(statusId);
+    st.textContent = '✅ Terpecahkan!';
+    st.classList.add('solved');
+    const btn = document.getElementById(btnId);
+    btn.textContent = '✅ Jawaban Terungkap!';
+    btn.classList.add('revealed');
+    document.getElementById(badgeId).classList.add('earned');
+    solved++;
+    updateProgress();
+  }
+
+  function updateProgress() {
+    document.getElementById('solvedCount').textContent = solved;
+    document.getElementById('pbFill').style.width = (solved / 3 * 100) + '%';
+    if (solved === 3) {
+      setTimeout(() => {
+        document.getElementById('fcb').textContent = '🎉 Semua kasus terpecahkan! Detektif hebat!';
+        document.getElementById('fc').classList.add('active');
+        setTimeout(() => document.getElementById('fc').classList.remove('active'), 5000);
+      }, 500);
+    }
+  }
+
+  const msgs = ['Baca ceritanya dulu ya! 📖','Coba pahami model SPLDV-nya! 📐','Klik Ungkap Jawaban kalau sudah siap! 🔍','Kamu detektif yang hebat! 🕵️','Jangan lupa cek jawabannya! ✔'];
+  let mi = 0;
+  let chibiBubbleTimeout;
+  
+  function toggleFC() {
+    const fc = document.getElementById('fc');
+    
+    // Clear existing timeout
+    clearTimeout(chibiBubbleTimeout);
+    
+    // Remove class to force animation restart
+    fc.classList.remove('active');
+    
+    // Update message
+    document.getElementById('fcb').textContent = msgs[mi++ % msgs.length];
+    
+    // Re-add class with small delay to trigger animation
+    setTimeout(() => {
+      fc.classList.add('active');
+      chibiBubbleTimeout = setTimeout(() => fc.classList.remove('active'), 4000);
+    }, 50);
+  }
+  
+  setTimeout(() => {
+    document.getElementById('fc').classList.add('active');
+    chibiBubbleTimeout = setTimeout(() => document.getElementById('fc').classList.remove('active'), 4000);
+  }, 2000);
+
+  // ── DRAGGABLE CHARACTER ──
+  const chibi = document.querySelector('.lh-chibi');
+  if (chibi) {
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+    let startX = 0;
+    let startY = 0;
+
+    chibi.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      const rect = chibi.getBoundingClientRect();
+      startX = e.clientX - rect.left;
+      startY = e.clientY - rect.top;
+      offsetX = 0;
+      offsetY = 0;
+      chibi.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging && chibi) {
+        const parent = chibi.parentElement;
+        offsetX = e.clientX - parent.getBoundingClientRect().left - startX;
+        offsetY = e.clientY - parent.getBoundingClientRect().top - startY;
+        chibi.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      chibi.style.cursor = 'grab';
+    });
+
+    chibi.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      const touch = e.touches[0];
+      const rect = chibi.getBoundingClientRect();
+      startX = touch.clientX - rect.left;
+      startY = touch.clientY - rect.top;
+      offsetX = 0;
+      offsetY = 0;
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      if (isDragging && chibi) {
+        const touch = e.touches[0];
+        const parent = chibi.parentElement;
+        offsetX = touch.clientX - parent.getBoundingClientRect().left - startX;
+        offsetY = touch.clientY - parent.getBoundingClientRect().top - startY;
+        chibi.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      }
+    });
+
+    document.addEventListener('touchend', () => {
+      isDragging = false;
+    });
+  }
+</script>
+
+<!-- ── NAVBAR COMPONENT ── -->
+<script src="assets/js/navbar.js"></script>
+<script src="assets/js/page-transition.js"></script>
+</body>
+</html>

@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evaluasi & Latihan — SIGAP SPLDV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/navbar.css">
+  <style>
+    :root {
+      --teal: #0D9488;
+      --teal-d: #0F766E;
+      --teal-xl: #F0FDF9;
+      --amber: #F59E0B;
+      --indigo: #6366F1;
+      --green: #22C55E;
+      --red: #EF4444;
+      --shadow: 0 4px 24px rgba(0,0,0,.09);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,.14);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: #F0F4F8; color: #0F172A; }
+
+    .wrapper { max-width: 900px; margin: 0 auto; padding: 40px 24px 100px; }
+
+    /* ── PAGE HEADER ── */
+    .page-header { text-align: center; margin-bottom: 36px; }
+    .page-title { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 800; color: var(--teal-d); margin-bottom: 8px; }
+    .page-subtitle { font-size: 14px; color: #64748B; line-height: 1.8; }
+
+    /* ── PROGRESS BAR GLOBAL ── */
+    .global-progress { background: white; border-radius: 16px; padding: 20px 24px; margin-bottom: 24px; box-shadow: var(--shadow); }
+    .gp-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .gp-label { font-size: 13px; font-weight: 700; color: var(--teal-d); }
+    .gp-count { font-size: 13px; color: #64748B; }
+    .gp-bar { height: 10px; background: #E2E8F0; border-radius: 20px; overflow: hidden; }
+    .gp-fill { height: 100%; background: linear-gradient(90deg, var(--teal), var(--indigo)); border-radius: 20px; transition: width .5s cubic-bezier(.4,0,.2,1); width: 0%; }
+    .gp-badges { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .gp-badge { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; background: #F1F5F9; color: #94A3B8; transition: all .3s; }
+    .gp-badge.done { background: #CCFBF1; color: var(--teal-d); }
+
+    /* ── TAB METODE ── */
+    .tab-nav { display: flex; gap: 8px; margin-bottom: 24px; }
+    .tab-btn { flex: 1; padding: 12px 8px; border-radius: 12px; border: 2px solid #E2E8F0; background: white; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; color: #64748B; cursor: pointer; transition: all .2s; text-align: center; }
+    .tab-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .tab-btn.active { background: var(--teal); border-color: var(--teal); color: white; }
+    .tab-btn .tab-icon { display: block; font-size: 20px; margin-bottom: 4px; }
+    .tab-btn .tab-check { display: inline-block; margin-left: 4px; }
+
+    /* ── STAGE PILLS ── */
+    .stage-pills { display: flex; gap: 8px; margin-bottom: 20px; }
+    .stage-pill { padding: 6px 16px; border-radius: 20px; border: 2px solid #E2E8F0; background: white; font-size: 12px; font-weight: 700; color: #64748B; cursor: pointer; transition: all .2s; }
+    .stage-pill.active { background: var(--amber); border-color: var(--amber); color: white; }
+    .stage-pill.done { background: #CCFBF1; border-color: var(--teal); color: var(--teal-d); }
+    .stage-pill.locked { opacity: .45; cursor: not-allowed; }
+
+    /* ── STAGE INFO ── */
+    .stage-info-box { background: #F0FDF9; border-left: 4px solid var(--teal); border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; font-size: 13px; color: var(--teal-d); line-height: 1.7; }
+
+    /* ── SOAL CARD ── */
+    .soal-card { background: white; border-radius: 20px; padding: 28px; margin-bottom: 20px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+    .soal-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--teal), var(--indigo)); }
+    .soal-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .soal-num { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); }
+    .soal-type { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: #EEF2FF; color: var(--indigo); }
+    .soal-q { font-size: 15px; font-weight: 600; color: #0F172A; line-height: 1.7; margin-bottom: 6px; }
+    .soal-hint { font-size: 12px; color: #94A3B8; margin-bottom: 18px; font-style: italic; }
+
+    /* ── FORMULA BOX ── */
+    .formula-box { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 12px 16px; margin-bottom: 18px; font-size: 13px; color: #334155; line-height: 1.8; font-family: 'Courier New', monospace; }
+
+    /* ── OPSI JAWABAN ── */
+    .opsi-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .opsi-btn { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 12px; border: 2px solid #E2E8F0; background: #FAFAFA; cursor: pointer; transition: all .2s; text-align: left; font-family: 'DM Sans', sans-serif; font-size: 13px; color: #334155; line-height: 1.6; }
+    .opsi-btn:hover:not(:disabled) { border-color: var(--teal); background: var(--teal-xl); }
+    .opsi-label { width: 24px; height: 24px; border-radius: 50%; background: #E2E8F0; color: #64748B; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .opsi-btn.selected { border-color: var(--indigo); background: #EEF2FF; }
+    .opsi-btn.selected .opsi-label { background: var(--indigo); color: white; }
+    .opsi-btn.benar { border-color: var(--green); background: #F0FDF4; }
+    .opsi-btn.benar .opsi-label { background: var(--green); color: white; }
+    .opsi-btn.salah { border-color: var(--red); background: #FEF2F2; }
+    .opsi-btn.salah .opsi-label { background: var(--red); color: white; }
+    .opsi-btn:disabled { cursor: default; }
+
+    /* ── FEEDBACK BOX ── */
+    .feedback-box { border-radius: 12px; padding: 16px 18px; margin-bottom: 16px; font-size: 13px; line-height: 1.8; display: none; }
+    .feedback-box.show { display: block; animation: slideDown .3s ease; }
+    .feedback-box.benar { background: #F0FDF4; border: 1px solid #86EFAC; }
+    .feedback-box.salah { background: #FEF2F2; border: 1px solid #FECACA; }
+    .feedback-box .fb-head { font-weight: 800; font-size: 14px; margin-bottom: 6px; }
+    .feedback-box.benar .fb-head { color: #166534; }
+    .feedback-box.salah .fb-head { color: #991B1B; }
+    .feedback-box p { color: #475569; }
+    .feedback-box .fb-explain { margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,.06); color: #334155; font-weight: 600; }
+
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+    /* ── TOMBOL LANJUT ── */
+    .btn-lanjut { display: none; width: 100%; padding: 13px; border-radius: 12px; background: var(--teal); color: white; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; border: none; cursor: pointer; transition: all .2s; margin-top: 4px; }
+    .btn-lanjut:hover { background: var(--teal-d); transform: translateY(-2px); }
+    .btn-lanjut.show { display: block; animation: slideDown .3s ease .15s both; }
+
+    /* ── HASIL STAGE ── */
+    .hasil-card { background: white; border-radius: 20px; padding: 36px; text-align: center; box-shadow: var(--shadow); display: none; }
+    .hasil-card.show { display: block; animation: slideDown .4s ease; }
+    .hasil-emoji { font-size: 56px; margin-bottom: 12px; }
+    .hasil-skor { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 800; color: var(--teal-d); margin-bottom: 4px; }
+    .hasil-label { font-size: 14px; color: #64748B; margin-bottom: 20px; }
+    .hasil-detail { display: flex; gap: 16px; justify-content: center; margin-bottom: 24px; flex-wrap: wrap; }
+    .hd-item { background: #F1F5F9; border-radius: 12px; padding: 12px 20px; font-size: 13px; }
+    .hd-num { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--teal-d); }
+    .hd-lbl { font-size: 11px; color: #94A3B8; font-weight: 700; text-transform: uppercase; margin-top: 2px; }
+    .btn-ulang, .btn-lanjut-stage { display: inline-block; padding: 11px 22px; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: all .2s; margin: 4px; }
+    .btn-ulang { background: #E2E8F0; color: #334155; }
+    .btn-ulang:hover { background: #CBD5E1; }
+    .btn-lanjut-stage { background: var(--teal); color: white; }
+    .btn-lanjut-stage:hover { background: var(--teal-d); transform: translateY(-2px); }
+
+    /* ── SEMUA SELESAI ── */
+    .selesai-card { background: linear-gradient(135deg, #0D9488, #6366F1); border-radius: 20px; padding: 40px; text-align: center; color: white; margin-top: 24px; display: none; }
+    .selesai-card.show { display: block; animation: slideDown .4s ease; }
+    .selesai-card h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 12px; }
+    .selesai-card p { font-size: 14px; opacity: .85; margin-bottom: 24px; line-height: 1.8; }
+    .selesai-badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+    .s-badge { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3); border-radius: 12px; padding: 10px 18px; font-size: 13px; font-weight: 700; }
+
+    /* ── FOOTER ── */
+    .footer { background: #0F172A; margin-top: 20px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; padding: 28px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer-brand { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: white; margin-bottom: 4px; }
+    .footer-sub { font-size: 12px; color: #64748B; }
+    .footer-sub span { color: #6EE7B7; font-weight: 600; }
+    .footer-right { font-size: 12px; color: #334155; }
+
+    /* ── FLOATING MASCOT ── */
+    .floating-mascot { position: fixed; bottom: 28px; right: 28px; z-index: 999; cursor: pointer; transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+    .floating-mascot:hover { transform: translateY(-6px) scale(1.05); }
+    .fm-char { width: 80px; height: auto; display: block; filter: drop-shadow(0 8px 20px rgba(0,0,0,.2)); }
+    .fm-bubble { position: absolute; bottom: 90px; right: 0; background: white; border-radius: 16px 16px 4px 16px; padding: 12px 16px; font-size: 12.5px; font-weight: 700; color: var(--teal-d); box-shadow: var(--shadow-lg); opacity: 0; transform: translateY(10px) scale(.85); transition: opacity .35s, transform .35s; pointer-events: none; max-width: 210px; white-space: normal; text-align: left; line-height: 1.5; }
+    .fm-bubble::after { content: ''; position: absolute; bottom: -8px; right: 20px; width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid white; }
+    .floating-mascot.show-bubble .fm-bubble { opacity: 1; transform: translateY(0) scale(1); }
+
+    @media (max-width: 768px) {
+      body { padding-bottom: 80px; }
+      .wrapper { padding: 24px 16px 100px; }
+      .page-title { font-size: 28px; }
+      .tab-btn .tab-icon { font-size: 16px; }
+      .floating-mascot { bottom: 16px; right: 16px; }
+      .fm-char { width: 64px; }
+    }
+
+    /* ── MODAL INPUT NAMA ── */
+    .nama-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.85); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(6px); }
+    .nama-overlay.hidden { display: none !important; }
+    .nama-modal { background: white; border-radius: 20px; padding: 36px 32px; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 24px 64px rgba(0,0,0,.2); }
+    .nama-modal h2 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--teal-d); margin-bottom: 8px; }
+    .nama-modal p { font-size: 13px; color: #64748B; margin-bottom: 24px; line-height: 1.7; }
+    .nama-input { width: 100%; padding: 13px 16px; border: 2px solid #E2E8F0; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: #0F172A; outline: none; transition: border-color .2s; margin-bottom: 14px; }
+    .nama-input:focus { border-color: var(--teal); }
+    .nama-submit { width: 100%; padding: 13px; border-radius: 12px; background: var(--teal); color: white; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; border: none; cursor: pointer; transition: background .2s; }
+    .nama-submit:hover { background: var(--teal-d); }
+    .nama-error { font-size: 12px; color: var(--red); margin-bottom: 10px; display: none; }
+    .nama-error.show { display: block; }
+
+    /* ── NOTIF KIRIM DATA ── */
+    .notif-kirim { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: var(--teal-d); color: white; padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 600; z-index: 9998; opacity: 0; transition: opacity .4s; pointer-events: none; white-space: nowrap; }
+    .notif-kirim.show { opacity: 1; }
+  </style>
+  <link rel="stylesheet" href="assets/css/page-transition.css">
+</head>
+<body>
+<div id="navbar-container"></div>
+
+<!-- ── MODAL INPUT NAMA ── -->
+<div class="nama-overlay" id="namaOverlay">
+  <div class="nama-modal">
+    <div style="font-size:48px;margin-bottom:12px;">👋</div>
+    <h2>Halo! Siapa namamu?</h2>
+    <p>Masukkan nama lengkapmu agar hasil latihanmu bisa tersimpan dan dipantau oleh gurumu.</p>
+    <input type="text" class="nama-input" id="inputNama" placeholder="Tulis nama lengkapmu di sini..." maxlength="60" onkeydown="if(event.key==='Enter') simpanNama()">
+    <div class="nama-error" id="namaError">Nama tidak boleh kosong!</div>
+    <button class="nama-submit" onclick="simpanNama()">Mulai Latihan →</button>
+  </div>
+</div>
+
+<!-- ── NOTIF KIRIM ── -->
+<div class="notif-kirim" id="notifKirim">📤 Data tersimpan ke rekap guru...</div>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <h1 class="page-title">✏️ Latihan, Evaluasi dan Posttest</h1>
+    <p class="page-subtitle" id="sapaanSiswa">Pilih metode dan tahap latihan. Jawab soal, langsung dapat feedback & penjelasan!</p>
+    <button id="btnGantiNama" onclick="gantiNama()" style="display:none;margin-top:10px;padding:6px 14px;border-radius:20px;border:1.5px solid var(--teal);background:white;color:var(--teal);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;">✏️ Ganti Nama</button>
+  </div>
+
+  <!-- GLOBAL PROGRESS -->
+  <div class="global-progress">
+    <div class="gp-top">
+      <span class="gp-label">🏆 Progress Keseluruhan</span>
+      <span class="gp-count" id="gpCount">0 / 9 tahap selesai</span>
+    </div>
+    <div class="gp-bar"><div class="gp-fill" id="gpFill"></div></div>
+    <div class="gp-badges">
+      <span class="gp-badge" id="badge-grafik-guided">📊 Grafik Guided</span>
+      <span class="gp-badge" id="badge-grafik-practice">📊 Grafik Practice</span>
+      <span class="gp-badge" id="badge-grafik-posttest">📊 Grafik Posttest</span>
+      <span class="gp-badge" id="badge-eliminasi-guided">✏️ Eliminasi Guided</span>
+      <span class="gp-badge" id="badge-eliminasi-practice">✏️ Eliminasi Practice</span>
+      <span class="gp-badge" id="badge-eliminasi-posttest">✏️ Eliminasi Posttest</span>
+      <span class="gp-badge" id="badge-substitusi-guided">🔄 Substitusi Guided</span>
+      <span class="gp-badge" id="badge-substitusi-practice">🔄 Substitusi Practice</span>
+      <span class="gp-badge" id="badge-substitusi-posttest">🔄 Substitusi Posttest</span>
+    </div>
+  </div>
+
+  <!-- TAB METODE -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchMetode('grafik')" id="tab-grafik">
+      <span class="tab-icon">📊</span>Metode Grafik<span class="tab-check" id="check-grafik"></span>
+    </button>
+    <button class="tab-btn" onclick="switchMetode('eliminasi')" id="tab-eliminasi">
+      <span class="tab-icon">✏️</span>Metode Eliminasi<span class="tab-check" id="check-eliminasi"></span>
+    </button>
+    <button class="tab-btn" onclick="switchMetode('substitusi')" id="tab-substitusi">
+      <span class="tab-icon">🔄</span>Metode Substitusi<span class="tab-check" id="check-substitusi"></span>
+    </button>
+  </div>
+
+  <!-- KONTEN LATIHAN -->
+  <div id="latihan-area"></div>
+
+  <!-- SELESAI SEMUA -->
+  <div class="selesai-card" id="selesaiCard">
+    <h2 id="selesaiJudul">🌟 Luar Biasa!</h2>
+    <p id="selesaiPesan">Kamu telah menyelesaikan semua tahap latihan SPLDV!<br>Capaian yang membanggakan. Kamu siap menghadapi ujian!</p>
+    <div class="selesai-badges">
+      <span class="s-badge">📊 Grafik ✓</span>
+      <span class="s-badge">✏️ Eliminasi ✓</span>
+      <span class="s-badge">🔄 Substitusi ✓</span>
+    </div>
+
+    <!-- Skor Total -->
+    <div id="selesaiSkorBox" style="background:rgba(255,255,255,.15);border-radius:14px;padding:14px 24px;margin-bottom:20px;display:inline-block;">
+      <div style="font-size:13px;opacity:.8;margin-bottom:4px;">Skor Total Keseluruhan</div>
+      <div id="selesaiSkorAngka" style="font-family:'Playfair Display',serif;font-size:42px;font-weight:800;line-height:1;">–</div>
+    </div>
+
+    <!-- Info remidi -->
+    <div id="remidiInfo" style="display:none;background:rgba(255,255,255,.2);border-radius:12px;padding:12px 20px;margin-bottom:20px;font-size:13px;line-height:1.7;">
+      ⚠️ <strong>Nilai kamu di bawah 70%.</strong><br>
+      Kerjakan remidi untuk memperkuat pemahamanmu sebelum lanjut.
+    </div>
+
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="karakter.html" style="display:inline-block;background:white;color:var(--teal-d);padding:12px 28px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;">← Kembali ke Beranda</a>
+      <a id="tombolRemidi" href="https://forms.gle/WQev6RDpQRs4z4FZ8" target="_blank" rel="noopener"
+         style="display:none;background:#EF4444;color:white;padding:12px 28px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;">
+        📝 Kerjakan Remidi →
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">SIGAP SPLDV</div>
+      <div class="footer-sub">Dikembangkan oleh <span>Vivin Findika Aprilla E S</span> · NIM 241001029 · Pendidikan Matematika</div>
+    </div>
+    <div class="footer-right">© 2025 · Teknologi Pendidikan</div>
+  </div>
+</footer>
+
+<!-- NAVBAR -->
+<script src="assets/js/navbar.js"></script>
+
+<!-- FLOATING MASCOT -->
+<div class="floating-mascot" id="floatMascot" onclick="nextMascotMsg()">
+  <div class="fm-bubble" id="fmBubble">Yuk mulai latihan! Pilih metode yang ingin kamu pelajari 😊</div>
+  <svg class="fm-char" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="50" cy="126" rx="28" ry="6" fill="rgba(0,0,0,0.12)"/>
+    <rect x="32" y="92" width="14" height="28" rx="7" fill="#1E3A5F"/>
+    <rect x="54" y="92" width="14" height="28" rx="7" fill="#1E3A5F"/>
+    <ellipse cx="39" cy="120" rx="10" ry="6" fill="#1C1917"/>
+    <ellipse cx="61" cy="120" rx="10" ry="6" fill="#1C1917"/>
+    <rect x="24" y="56" width="52" height="42" rx="14" fill="#2563EB"/>
+    <path d="M38 56 L50 66 L62 56" fill="white" opacity=".9"/>
+    <path d="M48 60 L50 75 L52 60 L50 58Z" fill="#EF4444"/>
+    <rect x="10" y="60" width="16" height="28" rx="8" fill="#2563EB"/>
+    <rect x="74" y="60" width="16" height="28" rx="8" fill="#2563EB"/>
+    <circle cx="18" cy="90" r="8" fill="#FBBF7A"/>
+    <circle cx="82" cy="90" r="8" fill="#FBBF7A"/>
+    <circle cx="50" cy="32" rx="20" ry="22" fill="#FBBF7A"/>
+    <ellipse cx="50" cy="18" rx="20" ry="12" fill="#1C1917"/>
+    <circle cx="32" cy="32" r="7" fill="#FBBF7A"/>
+    <circle cx="68" cy="32" r="7" fill="#FBBF7A"/>
+    <ellipse cx="42" cy="32" rx="4" ry="5" fill="white"/>
+    <ellipse cx="58" cy="32" rx="4" ry="5" fill="white"/>
+    <ellipse cx="43" cy="33" rx="2" ry="2.5" fill="#1C1917"/>
+    <ellipse cx="59" cy="33" rx="2" ry="2.5" fill="#1C1917"/>
+    <path d="M42 40 Q50 45 58 40" stroke="#D97706" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  </svg>
+</div>
+
+<script src="assets/js/page-transition.js"></script>
+
+<script>
+// ════════════════════════════════════════════
+// DATA SOAL
+// ════════════════════════════════════════════
+const SOAL = {
+  grafik: {
+    guided: [
+      {
+        q: "Persamaan x + y = 5 memiliki titik potong sumbu-x di...",
+        hint: "💡 Hint: Saat memotong sumbu-x, nilai y = 0. Substitusikan y = 0 ke persamaan.",
+        formula: "x + y = 5\nJika y = 0 → x + 0 = 5 → x = ?",
+        opsi: ["(0, 5)", "(5, 0)", "(0, 0)", "(2, 3)"],
+        jawaban: 1,
+        explain: "Titik potong sumbu-x diperoleh dengan membuat y = 0. Maka x + 0 = 5, sehingga x = 5. Titik potongnya adalah (5, 0).",
+        steps: "Langkah: Substitusi y=0 → x=5 → Titik (5, 0)"
+      },
+      {
+        q: "Persamaan 2x + y = 6 memiliki titik potong sumbu-y di...",
+        hint: "💡 Hint: Saat memotong sumbu-y, nilai x = 0. Substitusikan x = 0 ke persamaan.",
+        formula: "2x + y = 6\nJika x = 0 → 2(0) + y = 6 → y = ?",
+        opsi: ["(3, 0)", "(0, 3)", "(0, 6)", "(6, 0)"],
+        jawaban: 2,
+        explain: "Titik potong sumbu-y diperoleh dengan membuat x = 0. Maka 2(0) + y = 6, sehingga y = 6. Titik potongnya adalah (0, 6).",
+        steps: "Langkah: Substitusi x=0 → y=6 → Titik (0, 6)"
+      },
+      {
+        q: "Dua garis x + y = 4 dan x − y = 2 berpotongan di titik...",
+        hint: "💡 Hint: Titik potong adalah solusi SPLDV. Cari titik yang memenuhi kedua persamaan sekaligus.",
+        formula: "x + y = 4  ...(1)\nx − y = 2  ...(2)\nJumlahkan (1)+(2): 2x = 6 → x = 3\nSubstitusi ke (1): 3 + y = 4 → y = ?",
+        opsi: ["(2, 2)", "(3, 1)", "(1, 3)", "(4, 0)"],
+        jawaban: 1,
+        explain: "Jumlahkan kedua persamaan: (x+y)+(x-y) = 4+2 → 2x = 6 → x = 3. Substitusi ke persamaan (1): 3 + y = 4 → y = 1. Titik potong garis adalah (3, 1).",
+        steps: "Langkah: Jumlahkan → x=3 → y=1 → Titik (3, 1)"
+      }
+    ],
+    practice: [
+      {
+        q: "Persamaan 3x + 2y = 12. Titik potong sumbu-x adalah...",
+        hint: "💡 Hint: Buat y = 0 lalu selesaikan nilai x.",
+        formula: "3x + 2y = 12\nJika y = 0 → 3x = 12 → x = ?",
+        opsi: ["(4, 0)", "(0, 4)", "(6, 0)", "(0, 6)"],
+        jawaban: 0,
+        explain: "Substitusi y = 0: 3x + 0 = 12 → x = 4. Titik potong sumbu-x adalah (4, 0).",
+        steps: "y=0 → 3x=12 → x=4 → (4,0)"
+      },
+      {
+        q: "Garis x + 2y = 8 dan 2x − y = 6 berpotongan di titik...",
+        hint: "💡 Hint: Coba eliminasi salah satu variabel dengan mengalikan salah satu persamaan terlebih dahulu.",
+        formula: "x + 2y = 8    ...(1)\n2x − y = 6   ...(2)\n(2) × 2: 4x − 2y = 12  ...(3)\n(1) + (3): 5x = 20 → x = ?",
+        opsi: ["(4, 2)", "(2, 4)", "(3, 2.5)", "(5, 1.5)"],
+        jawaban: 0,
+        explain: "Kalikan persamaan (2) dengan 2: 4x−2y=12. Jumlahkan dengan (1): 5x=20 → x=4. Substitusi ke (1): 4+2y=8 → y=2. Titik potong adalah (4, 2).",
+        steps: "Eliminasi y → x=4 → y=2 → (4,2)"
+      }
+    ],
+    posttest: [
+      {
+        q: "Titik potong sumbu-y dari persamaan 4x + 2y = 16 adalah...",
+        hint: null,
+        formula: "4x + 2y = 16",
+        opsi: ["(0, 8)", "(4, 0)", "(0, 4)", "(8, 0)"],
+        jawaban: 0,
+        explain: "Substitusi x=0: 4(0)+2y=16 → 2y=16 → y=8. Titik potong sumbu-y adalah (0, 8).",
+        steps: "x=0 → 2y=16 → y=8 → (0,8)"
+      },
+      {
+        q: "Jika garis y = 2x − 1 dan y = −x + 5 digambar, mereka berpotongan di...",
+        hint: null,
+        formula: "2x − 1 = −x + 5\n3x = 6 → x = ?\ny = 2(?) − 1",
+        opsi: ["(2, 3)", "(3, 2)", "(1, 1)", "(2, 5)"],
+        jawaban: 0,
+        explain: "Samakan kedua y: 2x-1 = -x+5 → 3x=6 → x=2. Substitusi: y=2(2)-1=3. Titik potong (2, 3).",
+        steps: "2x-1=-x+5 → x=2 → y=3 → (2,3)"
+      },
+      {
+        q: "SPLDV x + y = 7 dan x − y = 1 memiliki solusi...",
+        hint: null,
+        formula: "x + y = 7\nx − y = 1",
+        opsi: ["x=3, y=4", "x=4, y=3", "x=5, y=2", "x=2, y=5"],
+        jawaban: 1,
+        explain: "Jumlahkan: 2x=8 → x=4. Substitusi: 4+y=7 → y=3. Solusi: x=4, y=3.",
+        steps: "2x=8 → x=4 → y=3"
+      },
+      {
+        q: "Persamaan 5x − y = 10, titik potong sumbu-x adalah...",
+        hint: null,
+        formula: "5x − y = 10, y = 0",
+        opsi: ["(0, 2)", "(2, 0)", "(0, −10)", "(10, 0)"],
+        jawaban: 1,
+        explain: "Substitusi y=0: 5x=10 → x=2. Titik potong sumbu-x adalah (2, 0).",
+        steps: "y=0 → 5x=10 → x=2 → (2,0)"
+      },
+      {
+        q: "Garis-garis x = 3 dan y = 2x − 1 berpotongan di titik...",
+        hint: null,
+        formula: "x = 3 (garis vertikal)\ny = 2(3) − 1 = ?",
+        opsi: ["(3, 5)", "(3, 4)", "(3, 7)", "(3, 6)"],
+        jawaban: 0,
+        explain: "Karena x=3, substitusi ke y=2x-1: y=2(3)-1=6-1=5. Titik potong adalah (3, 5).",
+        steps: "x=3 → y=2(3)-1=5 → (3,5)"
+      }
+    ]
+  },
+
+  eliminasi: {
+    guided: [
+      {
+        q: "Gunakan metode eliminasi untuk menyelesaikan: x + y = 7 dan x − y = 3. Nilai x adalah...",
+        hint: "💡 Hint: Jumlahkan kedua persamaan untuk mengeliminasi variabel y!",
+        formula: "x + y = 7  ...(1)\nx − y = 3  ...(2)\n(1) + (2): 2x = ? → x = ?",
+        opsi: ["x = 3", "x = 4", "x = 5", "x = 6"],
+        jawaban: 2,
+        explain: "Jumlahkan persamaan (1) dan (2): (x+y)+(x-y) = 7+3 → 2x = 10 → x = 5. Eliminasi berarti menghilangkan satu variabel agar variabel lain bisa dicari.",
+        steps: "(1)+(2): 2x=10 → x=5"
+      },
+      {
+        q: "Dari soal sebelumnya (x + y = 7 dan x − y = 3), setelah x = 5, nilai y adalah...",
+        hint: "💡 Hint: Substitusikan x = 5 ke salah satu persamaan awal.",
+        formula: "x + y = 7\nSubstitusi x = 5:\n5 + y = 7 → y = ?",
+        opsi: ["y = 1", "y = 2", "y = 3", "y = 4"],
+        jawaban: 1,
+        explain: "Substitusi x=5 ke persamaan (1): 5 + y = 7 → y = 7 - 5 = 2. Jadi y = 2. Solusi SPLDV adalah x=5 dan y=2.",
+        steps: "5+y=7 → y=2"
+      },
+      {
+        q: "Untuk mengeliminasi x dari: 2x + y = 8 dan x + y = 5, langkah yang benar adalah...",
+        hint: "💡 Hint: Kurangi persamaan yang satu dari yang lain agar koefisien x sama!",
+        formula: "2x + y = 8  ...(1)\nx  + y = 5  ...(2)\n(1) − (2): ? ",
+        opsi: [
+          "Jumlahkan kedua persamaan → 3x + 2y = 13",
+          "Kurangkan (1)−(2) → x = 3",
+          "Kalikan (2) dengan 2, lalu kurangkan → x = 2",
+          "Substitusi langsung x ke persamaan (1)"
+        ],
+        jawaban: 1,
+        explain: "Kurangkan (1)-(2): (2x+y)-(x+y) = 8-5 → x = 3. Koefisien y sudah sama (keduanya 1), jadi cukup langsung dikurangkan untuk mengeliminasi y dan mendapat nilai x.",
+        steps: "(1)-(2): x=3"
+      }
+    ],
+    practice: [
+      {
+        q: "Selesaikan: 3x + 2y = 16 dan x + 2y = 8. Nilai x adalah...",
+        hint: "💡 Hint: Koefisien y sudah sama! Kurangkan langsung untuk eliminasi y.",
+        formula: "3x + 2y = 16  ...(1)\nx  + 2y =  8  ...(2)\n(1) − (2): 2x = 8 → x = ?",
+        opsi: ["x = 2", "x = 3", "x = 4", "x = 5"],
+        jawaban: 2,
+        explain: "Kurangkan (1)-(2): 2x = 8 → x = 4. Koefisien y sudah sama (2y) sehingga langsung bisa dieliminasi dengan pengurangan.",
+        steps: "(1)-(2): 2x=8 → x=4"
+      },
+      {
+        q: "Dari 3x + 2y = 16 dan x + 2y = 8, setelah x = 4, nilai y adalah...",
+        hint: "💡 Hint: Substitusikan x = 4 ke persamaan yang lebih sederhana.",
+        formula: "x + 2y = 8\n4 + 2y = 8 → 2y = ? → y = ?",
+        opsi: ["y = 1", "y = 2", "y = 3", "y = 4"],
+        jawaban: 1,
+        explain: "Substitusi x=4 ke persamaan (2): 4 + 2y = 8 → 2y = 4 → y = 2. Solusi SPLDV: x=4, y=2.",
+        steps: "4+2y=8 → 2y=4 → y=2"
+      }
+    ],
+    posttest: [
+      {
+        q: "Selesaikan: 2x + y = 9 dan x + y = 6. Nilai x adalah...",
+        hint: null,
+        formula: "2x + y = 9\nx  + y = 6",
+        opsi: ["x = 2", "x = 3", "x = 4", "x = 5"],
+        jawaban: 1,
+        explain: "Kurangkan persamaan 1 dan 2: x = 9-6 = 3. Jadi x = 3.",
+        steps: "(1)-(2): x=3"
+      },
+      {
+        q: "Dari soal di atas (2x + y = 9, x + y = 6), nilai y adalah...",
+        hint: null,
+        formula: "x + y = 6, x = 3",
+        opsi: ["y = 2", "y = 3", "y = 4", "y = 5"],
+        jawaban: 1,
+        explain: "Substitusi x=3 ke x+y=6: 3+y=6 → y=3.",
+        steps: "3+y=6 → y=3"
+      },
+      {
+        q: "Metode eliminasi cocok digunakan ketika...",
+        hint: null,
+        formula: null,
+        opsi: [
+          "Koefisien salah satu variabel sudah sama di kedua persamaan",
+          "Salah satu persamaan hanya memiliki satu variabel",
+          "Kedua persamaan tidak memiliki variabel yang sama",
+          "Nilai variabel sudah diketahui sebelumnya"
+        ],
+        jawaban: 0,
+        explain: "Metode eliminasi paling efisien ketika koefisien salah satu variabel sudah sama di kedua persamaan, karena bisa langsung dijumlahkan atau dikurangkan tanpa perlu perkalian dulu.",
+        steps: "Koefisien sama → eliminasi langsung"
+      },
+      {
+        q: "Untuk menyelesaikan 4x − 2y = 10 dan 2x − 2y = 4, nilai x adalah...",
+        hint: null,
+        formula: "4x − 2y = 10  ...(1)\n2x − 2y =  4  ...(2)\n(1)−(2): 2x = 6 → x = ?",
+        opsi: ["x = 2", "x = 3", "x = 4", "x = 5"],
+        jawaban: 1,
+        explain: "Kurangkan (1)-(2): 2x = 6 → x = 3.",
+        steps: "(1)-(2): 2x=6 → x=3"
+      },
+      {
+        q: "Dari 4x − 2y = 10 dan 2x − 2y = 4, nilai y adalah...",
+        hint: null,
+        formula: "2x − 2y = 4, x = 3\n2(3) − 2y = 4 → y = ?",
+        opsi: ["y = 0", "y = 1", "y = 2", "y = 3"],
+        jawaban: 2,
+        explain: "Substitusi x=3 ke persamaan (2): 2(3)-2y=4 → 6-2y=4 → 2y=2 → y=1. Jadi y=1.",
+        steps: "6-2y=4 → 2y=2 → y=1"
+      }
+    ]
+  },
+
+  substitusi: {
+    guided: [
+      {
+        q: "Dari persamaan y = x + 2 dan 2x + y = 10, langkah pertama metode substitusi adalah...",
+        hint: "💡 Hint: Dalam metode substitusi, kita menggantikan (mensubstitusikan) ekspresi satu variabel ke persamaan lain.",
+        formula: "y = x + 2         ...(1)\n2x + y = 10      ...(2)\nSubstitusi (1) ke (2):\n2x + (x + 2) = 10",
+        opsi: [
+          "Jumlahkan kedua persamaan langsung",
+          "Substitusikan y = x + 2 ke persamaan 2x + y = 10",
+          "Kurangkan persamaan 2 dari persamaan 1",
+          "Bagi persamaan 1 dengan 2"
+        ],
+        jawaban: 1,
+        explain: "Metode substitusi dimulai dengan mengambil ekspresi variabel dari satu persamaan (y = x+2), lalu menggantikannya ke persamaan lain (2x + y = 10). Ini mengubah SPLDV menjadi persamaan satu variabel yang mudah diselesaikan.",
+        steps: "Ambil y=x+2, substitusi ke persamaan 2"
+      },
+      {
+        q: "Setelah substitusi y = x + 2 ke 2x + y = 10, persamaan yang diperoleh adalah...",
+        hint: "💡 Hint: Ganti y dengan (x + 2) dalam persamaan 2x + y = 10, lalu sederhanakan.",
+        formula: "2x + (x + 2) = 10\n? x + 2 = 10\n? x = 8\nx = ?",
+        opsi: ["3x = 8, x = 8/3", "3x + 2 = 10, x = 8/3", "3x = 8, x ≈ 2,67", "3x + 2 = 10, x = 8/3 ≈ 2,67"],
+        jawaban: 1,
+        explain: "Substitusi y=x+2 ke 2x+y=10: 2x+(x+2)=10 → 3x+2=10 → 3x=8 → x=8/3 ≈ 2,67. Perhatikan bahwa proses ini mengubah SPLDV menjadi persamaan linear satu variabel.",
+        steps: "2x+(x+2)=10 → 3x+2=10 → 3x=8"
+      },
+      {
+        q: "Dari y = 2x − 1 dan x + y = 8, nilai x yang benar setelah substitusi adalah...",
+        hint: "💡 Hint: Substitusi y = 2x - 1 ke x + y = 8. Selesaikan persamaan yang terbentuk.",
+        formula: "x + (2x − 1) = 8\n3x − 1 = 8\n3x = ?\nx = ?",
+        opsi: ["x = 2", "x = 3", "x = 4", "x = 5"],
+        jawaban: 1,
+        explain: "Substitusi y=2x-1 ke x+y=8: x+(2x-1)=8 → 3x-1=8 → 3x=9 → x=3. Kemudian cari y: y=2(3)-1=5. Solusi: x=3, y=5.",
+        steps: "x+(2x-1)=8 → 3x=9 → x=3"
+      }
+    ],
+    practice: [
+      {
+        q: "Dari y = 3x − 2 dan 2x + y = 12, nilai x adalah...",
+        hint: "💡 Hint: Substitusikan y = 3x - 2 ke persamaan 2x + y = 12.",
+        formula: "2x + (3x − 2) = 12\n5x − 2 = 12\n5x = ?\nx = ?",
+        opsi: ["x = 2", "x = 2,8", "x = 3", "x = 14"],
+        jawaban: 1,
+        explain: "Substitusi y=3x-2 ke 2x+y=12: 2x+(3x-2)=12 → 5x-2=12 → 5x=14 → x=14/5=2,8.",
+        steps: "5x-2=12 → 5x=14 → x=2,8"
+      },
+      {
+        q: "Dari x = 2y + 1 dan 3x − y = 13, nilai y adalah...",
+        hint: "💡 Hint: Substitusikan x = 2y + 1 ke persamaan 3x - y = 13.",
+        formula: "3(2y + 1) − y = 13\n6y + 3 − y = 13\n5y + 3 = 13\n5y = ? → y = ?",
+        opsi: ["y = 1", "y = 2", "y = 3", "y = 4"],
+        jawaban: 1,
+        explain: "Substitusi x=2y+1 ke 3x-y=13: 3(2y+1)-y=13 → 6y+3-y=13 → 5y=10 → y=2. Kemudian x=2(2)+1=5.",
+        steps: "6y+3-y=13 → 5y=10 → y=2"
+      }
+    ],
+    posttest: [
+      {
+        q: "Dari y = x + 4 dan 2x + y = 13, nilai x adalah...",
+        hint: null,
+        formula: "2x + (x + 4) = 13\n3x = 9 → x = ?",
+        opsi: ["x = 2", "x = 3", "x = 4", "x = 5"],
+        jawaban: 1,
+        explain: "Substitusi y=x+4: 2x+(x+4)=13 → 3x=9 → x=3.",
+        steps: "3x+4=13 → 3x=9 → x=3"
+      },
+      {
+        q: "Dari y = x + 4 dan x = 3, nilai y adalah...",
+        hint: null,
+        formula: "y = 3 + 4 = ?",
+        opsi: ["y = 5", "y = 6", "y = 7", "y = 8"],
+        jawaban: 2,
+        explain: "Substitusi x=3 ke y=x+4: y=3+4=7. Solusi SPLDV: x=3, y=7.",
+        steps: "y=3+4=7"
+      },
+      {
+        q: "Metode substitusi lebih mudah digunakan ketika...",
+        hint: null,
+        formula: null,
+        opsi: [
+          "Koefisien kedua variabel sama di kedua persamaan",
+          "Salah satu persamaan sudah menyatakan satu variabel secara eksplisit (misal y = ...)",
+          "Kedua persamaan berbentuk ax + by = c",
+          "Hanya ada satu persamaan dalam sistem"
+        ],
+        jawaban: 1,
+        explain: "Metode substitusi paling efisien ketika salah satu persamaan sudah berbentuk y=... atau x=..., karena ekspresi itu langsung bisa disubstitusikan tanpa transformasi tambahan.",
+        steps: "Persamaan eksplisit → substitusi langsung"
+      },
+      {
+        q: "Dari x = 5 − y dan 3x + 2y = 11, nilai y adalah...",
+        hint: null,
+        formula: "3(5 − y) + 2y = 11\n15 − 3y + 2y = 11\n15 − y = 11 → y = ?",
+        opsi: ["y = 2", "y = 3", "y = 4", "y = 5"],
+        jawaban: 2,
+        explain: "Substitusi x=5-y: 3(5-y)+2y=11 → 15-3y+2y=11 → 15-y=11 → y=4. Maka x=5-4=1.",
+        steps: "15-y=11 → y=4"
+      },
+      {
+        q: "Dari x = 5 − y dan y = 4, nilai x adalah...",
+        hint: null,
+        formula: "x = 5 − 4 = ?",
+        opsi: ["x = 0", "x = 1", "x = 2", "x = 3"],
+        jawaban: 1,
+        explain: "Substitusi y=4 ke x=5-y: x=5-4=1. Solusi SPLDV: x=1, y=4.",
+        steps: "x=5-4=1"
+      }
+    ]
+  }
+};
+
+// ════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════
+const STAGE_INFO = {
+  guided:   { label: 'Guided',   soal: 3, icon: '👨‍🎓', desc: 'Latihan dengan petunjuk dan hint lengkap di setiap soal. Cocok untuk pemula!' },
+  practice: { label: 'Practice', soal: 2, icon: '💪',   desc: 'Latihan mandiri dengan formula sebagai panduan. Uji kemampuanmu!' },
+  posttest: { label: 'Posttest', soal: 5, icon: '⭐',   desc: 'Tes akhir tanpa hint. Tunjukkan bahwa kamu sudah menguasai materi!' }
+};
+
+const state = {
+  metode: 'grafik',
+  stage: 'guided',
+  soalIdx: 0,
+  jawaban: {},     // {metode_stage_idx: true/false}
+  done: {},        // {metode_stage: true}
+  scores: {}       // {metode_stage: {benar, total}}
+};
+
+const MASCOT_MSGS = {
+  start:    "Yuk mulai latihan! Pilih metode yang ingin kamu pelajari 😊",
+  benar:    ["Betul sekali! Kamu hebat! 🌟", "Luar biasa! Terus semangat! 🎉", "Jawabanmu benar! Ayo lanjut! 💪"],
+  salah:    ["Hampir! Baca penjelasannya ya, pasti paham 😊", "Coba pahami langkahnya lagi ya! 📚", "Jangan menyerah! Setiap kesalahan adalah pelajaran 💡"],
+  selesai:  ["Tahap ini selesai! Kamu keren banget! 🏆", "Mantap! Lanjut ke tahap berikutnya ya! 🚀", "Kerja keras terbayar! Terus belajar! ⭐"],
+  all_done: "Semua selesai! Kamu luar biasa! 🌟🎓"
+};
+
+// ════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════
+function switchMetode(m) {
+  state.metode = m;
+  state.stage = 'guided';
+  state.soalIdx = 0;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+m).classList.add('active');
+  renderLatihan();
+}
+
+function switchStage(s) {
+  // Cek locked
+  const stages = ['guided','practice','posttest'];
+  const idx = stages.indexOf(s);
+  if (idx > 0 && !state.done[state.metode+'_'+stages[idx-1]]) {
+    showMascot("Selesaikan tahap " + STAGE_INFO[stages[idx-1]].label + " dulu ya! 🔒");
+    return;
+  }
+  state.stage = s;
+  state.soalIdx = 0;
+  renderLatihan();
+}
+
+function renderLatihan() {
+  const area = document.getElementById('latihan-area');
+  const { metode, stage } = state;
+  const key = metode+'_'+stage;
+  const soalList = SOAL[metode][stage];
+  const info = STAGE_INFO[stage];
+  const stages = ['guided','practice','posttest'];
+
+  let html = '';
+
+  // Stage pills
+  html += '<div class="stage-pills">';
+  stages.forEach((s, i) => {
+    const prevDone = i === 0 || state.done[metode+'_'+stages[i-1]];
+    const isDone = state.done[metode+'_'+s];
+    const isActive = s === stage;
+    const cls = isDone ? 'done' : (isActive ? 'active' : (!prevDone ? 'locked' : ''));
+    const tick = isDone ? ' ✓' : '';
+    html += `<button class="stage-pill ${cls}" onclick="switchStage('${s}')">${info.icon.replace(info.icon,STAGE_INFO[s].icon)} ${STAGE_INFO[s].label}${tick} · ${STAGE_INFO[s].soal} soal</button>`;
+  });
+  html += '</div>';
+
+  // Stage info
+  html += `<div class="stage-info-box"><strong>${info.icon} ${info.label}:</strong> ${info.desc}</div>`;
+
+  if (state.done[key]) {
+    // Tampilkan hasil
+    const sc = state.scores[key] || {benar:0, total: soalList.length};
+    const pct = Math.round(sc.benar/sc.total*100);
+    const emoji = pct>=80 ? '🏆' : pct>=60 ? '😊' : '📚';
+    const nextStage = stages[stages.indexOf(stage)+1];
+    html += `<div class="hasil-card show">
+      <div class="hasil-emoji">${emoji}</div>
+      <div class="hasil-skor">${pct}%</div>
+      <div class="hasil-label">Skor kamu di ${info.label}</div>
+      <div class="hasil-detail">
+        <div class="hd-item"><div class="hd-num">${sc.benar}</div><div class="hd-lbl">Benar</div></div>
+        <div class="hd-item"><div class="hd-num">${sc.total-sc.benar}</div><div class="hd-lbl">Salah</div></div>
+        <div class="hd-item"><div class="hd-num">${sc.total}</div><div class="hd-lbl">Total</div></div>
+      </div>
+      <button class="btn-ulang" onclick="ulangStage()">🔄 Ulangi</button>
+      ${nextStage ? `<button class="btn-lanjut-stage" onclick="switchStage('${nextStage}')">Lanjut ke ${STAGE_INFO[nextStage].label} →</button>` : `<a href="karakter.html" class="btn-lanjut-stage">🏠 Kembali ke Beranda</a>`}
+    </div>`;
+  } else {
+    // Tampilkan soal satu per satu
+    const soal = soalList[state.soalIdx];
+    const jawabanKey = key+'_'+state.soalIdx;
+    const answered = state.jawaban[jawabanKey] !== undefined;
+    const isBenar = state.jawaban[jawabanKey];
+
+    html += renderSoalCard(soal, state.soalIdx, soalList.length, answered, isBenar, jawabanKey);
+  }
+
+  area.innerHTML = html;
+  updateProgress();
+}
+
+function renderSoalCard(soal, idx, total, answered, isBenar, jawabanKey) {
+  const labels = ['A','B','C','D'];
+  let html = `<div class="soal-card">
+    <div class="soal-meta">
+      <span class="soal-num">Soal ${idx+1} / ${total}</span>
+      <span class="soal-type">${state.stage === 'guided' ? '👨‍🎓 Guided' : state.stage === 'practice' ? '💪 Practice' : '⭐ Posttest'}</span>
+    </div>
+    <div class="soal-q">${soal.q}</div>`;
+  if (soal.hint && state.stage === 'guided') {
+    html += `<div class="soal-hint">${soal.hint}</div>`;
+  }
+  if (soal.formula) {
+    html += `<div class="formula-box">${soal.formula.replace(/\n/g,'<br>')}</div>`;
+  }
+  html += '<div class="opsi-list">';
+  soal.opsi.forEach((op, i) => {
+    let cls = '';
+    if (answered) {
+      if (i === soal.jawaban) cls = 'benar';
+      else if (i === state.pilihanUser[jawabanKey] && !isBenar) cls = 'salah';
+    }
+    html += `<button class="opsi-btn ${cls}" ${answered?'disabled':''} onclick="jawab(${i},'${jawabanKey}',${soal.jawaban})">
+      <span class="opsi-label">${labels[i]}</span>
+      <span>${op}</span>
+    </button>`;
+  });
+  html += '</div>';
+
+  // Feedback
+  if (answered) {
+    const fbCls = isBenar ? 'benar' : 'salah';
+    const fbHead = isBenar ? '✅ Jawaban Benar!' : '❌ Belum Tepat';
+    html += `<div class="feedback-box ${fbCls} show">
+      <div class="fb-head">${fbHead}</div>
+      <p>${soal.explain}</p>
+      <div class="fb-explain">📌 Langkah: ${soal.steps}</div>
+    </div>`;
+    const isLast = idx === SOAL[state.metode][state.stage].length - 1;
+    const btnLabel = isLast ? 'Lihat Hasil →' : `Soal Berikutnya (${idx+2}/${SOAL[state.metode][state.stage].length}) →`;
+    html += `<button class="btn-lanjut show" onclick="${isLast ? 'selesaikanStage()' : 'nextSoal()'}">${btnLabel}</button>`;
+  }
+
+  html += '</div>';
+  return html;
+}
+
+// ════════════════════════════════════════════
+// LOGIC
+// ════════════════════════════════════════════
+if (!state.pilihanUser) state.pilihanUser = {};
+
+function jawab(pilihanIdx, jawabanKey, jawabanBenar) {
+  if (state.jawaban[jawabanKey] !== undefined) return;
+  const isBenar = pilihanIdx === jawabanBenar;
+  state.jawaban[jawabanKey] = isBenar;
+  state.pilihanUser[jawabanKey] = pilihanIdx;
+
+  const msgs = isBenar ? MASCOT_MSGS.benar : MASCOT_MSGS.salah;
+  showMascot(msgs[Math.floor(Math.random()*msgs.length)]);
+  renderLatihan();
+}
+
+function nextSoal() {
+  state.soalIdx++;
+  renderLatihan();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function selesaikanStage() {
+  const { metode, stage } = state;
+  const key = metode+'_'+stage;
+  const soalList = SOAL[metode][stage];
+  let benar = 0;
+  soalList.forEach((_, i) => {
+    if (state.jawaban[key+'_'+i] === true) benar++;
+  });
+  state.done[key] = true;
+  state.scores[key] = { benar, total: soalList.length };
+
+  // Update badge
+  const badgeEl = document.getElementById('badge-'+key);
+  if (badgeEl) badgeEl.classList.add('done');
+
+  // Kirim data ke Google Sheets setiap stage selesai
+  const metodeName = metode.charAt(0).toUpperCase() + metode.slice(1);
+  const stageName  = STAGE_INFO[stage].label;
+  kirimDataKeSheets('Selesai: ' + metodeName + ' – ' + stageName);
+
+  // Check semua selesai
+  const allKeys = ['grafik_guided','grafik_practice','grafik_posttest','eliminasi_guided','eliminasi_practice','eliminasi_posttest','substitusi_guided','substitusi_practice','substitusi_posttest'];
+  const allDone = allKeys.every(k => state.done[k]);
+  if (allDone) {
+    document.getElementById('selesaiCard').classList.add('show');
+    showMascot(MASCOT_MSGS.all_done);
+    kirimDataKeSheets('SELESAI SEMUA ⭐');
+
+    // Hitung skor total untuk tampilkan remidi
+    (function tampilkanHasilAkhir() {
+      let totalBenar = 0, totalSoal = 0;
+      ['grafik','eliminasi','substitusi'].forEach(m => {
+        ['guided','practice','posttest'].forEach(s => {
+          const sc = state.scores[m+'_'+s];
+          if (sc) { totalBenar += sc.benar; totalSoal += sc.total; }
+        });
+      });
+      const pct = totalSoal > 0 ? Math.round(totalBenar / totalSoal * 100) : 0;
+
+      // Tampilkan angka skor
+      document.getElementById('selesaiSkorAngka').textContent = pct + '%';
+
+      if (pct < 70) {
+        // Ubah judul & pesan
+        document.getElementById('selesaiJudul').textContent = '📚 Semangat Terus!';
+        document.getElementById('selesaiPesan').innerHTML =
+          'Kamu telah menyelesaikan semua tahap latihan SPLDV!<br>' +
+          'Nilai kamu <strong>' + pct + '%</strong> — masih perlu sedikit latihan lagi. Kerjakan remidi ya!';
+        // Tampilkan info & tombol remidi
+        document.getElementById('remidiInfo').style.display = 'block';
+        document.getElementById('tombolRemidi').style.display = 'inline-block';
+      }
+    })();
+  } else {
+    showMascot(MASCOT_MSGS.selesai[Math.floor(Math.random()*MASCOT_MSGS.selesai.length)]);
+  }
+
+  // Update tab check
+  const stagesDone = ['guided','practice','posttest'].every(s => state.done[metode+'_'+s]);
+  if (stagesDone) {
+    document.getElementById('check-'+metode).textContent = ' ✓';
+  }
+
+  renderLatihan();
+}
+
+function ulangStage() {
+  const { metode, stage } = state;
+  const key = metode+'_'+stage;
+  const soalList = SOAL[metode][stage];
+  delete state.done[key];
+  delete state.scores[key];
+  soalList.forEach((_, i) => {
+    delete state.jawaban[key+'_'+i];
+    delete state.pilihanUser[key+'_'+i];
+  });
+  state.soalIdx = 0;
+  const badgeEl = document.getElementById('badge-'+key);
+  if (badgeEl) badgeEl.classList.remove('done');
+  renderLatihan();
+}
+
+function updateProgress() {
+  const allKeys = ['grafik_guided','grafik_practice','grafik_posttest','eliminasi_guided','eliminasi_practice','eliminasi_posttest','substitusi_guided','substitusi_practice','substitusi_posttest'];
+  const done = allKeys.filter(k => state.done[k]).length;
+  const pct = done/allKeys.length*100;
+  document.getElementById('gpFill').style.width = pct+'%';
+  document.getElementById('gpCount').textContent = done+' / '+allKeys.length+' tahap selesai';
+  allKeys.forEach(k => {
+    const el = document.getElementById('badge-'+k);
+    if (el) el.classList.toggle('done', !!state.done[k]);
+  });
+}
+
+// ════════════════════════════════════════════
+// MASCOT
+// ════════════════════════════════════════════
+let bubbleTimeout;
+function showMascot(msg) {
+  const m = document.getElementById('floatMascot');
+  const b = document.getElementById('fmBubble');
+  clearTimeout(bubbleTimeout);
+  m.classList.remove('show-bubble');
+  b.textContent = msg;
+  setTimeout(() => {
+    m.classList.add('show-bubble');
+    bubbleTimeout = setTimeout(() => m.classList.remove('show-bubble'), 5000);
+  }, 50);
+}
+
+function nextMascotMsg() {
+  const msgs = [
+    "Pilih tahap Guided dulu kalau baru mulai! 📚",
+    "Baca hint-nya baik-baik ya! 💡",
+    "SPLDV itu seru, ayo kita kuasai! 📐",
+    "Jangan takut salah, itu cara belajar! 💪",
+    "Semangat! Kamu pasti bisa! 🌟"
+  ];
+  showMascot(msgs[Math.floor(Math.random()*msgs.length)]);
+}
+
+// ════════════════════════════════════════════
+// GOOGLE SHEETS INTEGRATION
+// ════════════════════════════════════════════
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxAe-UYo43sRuY-KtWYnNX_XwaHPPnOLiqK3qbxBtezSVSkBlrCjKXdkUrvA62BMdt3/exec';
+const startTime = Date.now();
+
+function tampilkanNotif(pesan) {
+  const el = document.getElementById('notifKirim');
+  el.textContent = pesan;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+async function kirimDataKeSheets(keterangan) {
+  const nama = localStorage.getItem('spldv_nama') || 'Anonim';
+  const selesai = new Date();
+  const waktuMenit = Math.round((Date.now() - startTime) / 60000);
+
+  // Hitung skor per metode (rata-rata dari guided+practice+posttest)
+  function hitungSkorMetode(metode) {
+    const stages = ['guided','practice','posttest'];
+    let totalBenar = 0, totalSoal = 0;
+    stages.forEach(s => {
+      const sc = state.scores[metode+'_'+s];
+      if (sc) { totalBenar += sc.benar; totalSoal += sc.total; }
+    });
+    return totalSoal > 0 ? Math.round(totalBenar / totalSoal * 100) : '-';
+  }
+
+  const skorGrafik     = hitungSkorMetode('grafik');
+  const skorEliminasi  = hitungSkorMetode('eliminasi');
+  const skorSubstitusi = hitungSkorMetode('substitusi');
+
+  // Hitung total keseluruhan
+  let totalBenar = 0, totalSoal = 0;
+  ['grafik','eliminasi','substitusi'].forEach(m => {
+    ['guided','practice','posttest'].forEach(s => {
+      const sc = state.scores[m+'_'+s];
+      if (sc) { totalBenar += sc.benar; totalSoal += sc.total; }
+    });
+  });
+  const skorTotal = totalSoal > 0 ? Math.round(totalBenar / totalSoal * 100) : '-';
+
+  const payload = {
+    nama,
+    keterangan,
+    skorGrafik,
+    skorEliminasi,
+    skorSubstitusi,
+    skorTotal,
+    waktuMenit,
+    tanggal: selesai.toLocaleDateString('id-ID'),
+    jam: selesai.toLocaleTimeString('id-ID')
+  };
+
+  tampilkanNotif('📤 Menyimpan data...');
+
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    tampilkanNotif('✅ Data berhasil tersimpan!');
+  } catch(err) {
+    tampilkanNotif('⚠️ Gagal menyimpan, cek koneksi internet.');
+    console.warn('Gagal kirim data:', err);
+  }
+}
+
+// ════════════════════════════════════════════
+// INPUT NAMA SISWA
+// ════════════════════════════════════════════
+function gantiNama() {
+  localStorage.removeItem('spldv_nama');
+  document.getElementById('inputNama').value = '';
+  document.getElementById('namaOverlay').classList.remove('hidden');
+  document.getElementById('btnGantiNama').style.display = 'none';
+}
+
+function simpanNama() {
+  const input = document.getElementById('inputNama');
+  const nama = input.value.trim();
+  const errEl = document.getElementById('namaError');
+  if (!nama) {
+    errEl.classList.add('show');
+    input.focus();
+    return;
+  }
+  errEl.classList.remove('show');
+  localStorage.setItem('spldv_nama', nama);
+  document.getElementById('namaOverlay').classList.add('hidden');
+
+  // Tampilkan sapaan di header
+  const sapaan = document.getElementById('sapaanSiswa');
+  if (sapaan) {
+    sapaan.innerHTML = `Halo, <strong>${nama}</strong>! Pilih metode dan tahap latihan. Jawab soal, langsung dapat feedback & penjelasan! 💪`;
+  }
+  document.getElementById('btnGantiNama').style.display = 'inline-block';
+
+  setTimeout(() => showMascot('Halo ' + nama.split(' ')[0] + '! Selamat belajar SPLDV! 😊'), 400);
+}
+
+// ════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════
+
+// Cek nama — kalau sudah ada langsung tampilkan sapaan, kalau belum tampilkan modal
+const namaTersimpan = localStorage.getItem('spldv_nama');
+if (namaTersimpan) {
+  document.getElementById('namaOverlay').classList.add('hidden');
+  const sapaan = document.getElementById('sapaanSiswa');
+  if (sapaan) {
+    sapaan.innerHTML = `Halo, <strong>${namaTersimpan}</strong>! Pilih metode dan tahap latihan. Jawab soal, langsung dapat feedback & penjelasan! 💪`;
+  }
+  document.getElementById('btnGantiNama').style.display = 'inline-block';
+} else {
+  // Belum ada nama — modal muncul, konten di belakangnya tidak bisa diklik
+  // (overlay sudah full screen, tidak perlu block lagi)
+}
+
+renderLatihan();
+setTimeout(() => showMascot(MASCOT_MSGS.start), 1500);
+</script>
+</body>
+</html>
